@@ -1,21 +1,15 @@
 var resumo = '';
 var first = '';
 
-// Textos Lorem Ipsum
 var loremIpsum = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vulputate aliquet turpis, non tincidunt neque bibendum ' +
   'ac. Donec tempor lorem sit amet odio sagittis imperdiet. Phasellus eget lectus non purus imperdiet hendrerit sed et sem. ' +
   'Morbi urna dolor, tristique a accumsan a, imperdiet malesuada ante. Aliquam neque leo, lacinia nec sodales sit amet, ' +
-  'bibendum non tellus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Quisque ' +
-  'consectetur augue et enim posuere sodales. Fusce id libero lectus, sit amet laoreet diam. Aliquam erat volutpat. ' +
-  'Donec dapibus risus sed erat laoreet vestibulum. Aenean mollis egestas eros, accumsan condimentum lorem ullamcorper ' +
-  'non. Vestibulum rhoncus ipsum nec odio adipiscing tristique. Morbi accumsan enim ut nisi rhoncus ac consequat erat egestas.',
+  'bibendum non tellus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.',
 
   'Phasellus eget sapien est, et molestie nibh. Pellentesque semper dui non ipsum volutpat interdum. Nulla et elit est. ' +
   'Praesent tincidunt magna sed sem feugiat malesuada. Suspendisse fringilla lobortis erat ac ultricies. Nunc pellentesque ' +
-  'elementum ultricies. Ut egestas pulvinar arcu eu fringilla. Pellentesque euismod congue facilisis. Proin sit amet nisl ' +
-  'metus. In hac habitasse platea dictumst. Proin faucibus tortor id neque commodo ac commodo nibh pharetra. Nam feugiat ' +
-  'dictum sollicitudin. Praesent id dignissim erat.',
+  'elementum ultricies. Ut egestas pulvinar arcu eu fringilla. Pellentesque euismod congue facilisis.',
 
   'Phasellus id fringilla metus. In quis eros tellus. Pellentesque auctor vestibulum magna eget pellentesque. Proin at erat ' +
   'ante, iaculis porttitor massa. Morbi iaculis scelerisque dapibus. Vestibulum lacinia ornare quam vel viverra. Donec cursus ' +
@@ -23,15 +17,11 @@ var loremIpsum = [
 
   'Cras pulvinar, arcu vitae convallis ultrices, justo eros imperdiet erat, eget fringilla arcu augue vel neque. Duis risus ' +
   'arcu, sodales sit amet suscipit non, accumsan at ligula. Aliquam iaculis consectetur pellentesque. Phasellus rhoncus magna ' +
-  'sit amet quam commodo mattis. Phasellus ac erat quis mauris blandit lacinia eu vel velit. Vestibulum vestibulum faucibus ' +
-  'ornare. In vehicula sodales lorem quis tempor. Nam consectetur neque fringilla mauris placerat sit amet iaculis lectus ' +
-  'vulputate. Sed nisl nunc, venenatis et auctor a, tristique vel est. Aenean a massa quam, sed vestibulum arcu.',
+  'sit amet quam commodo mattis. Phasellus ac erat quis mauris blandit lacinia eu vel velit.',
 
   'Praesent eu nulla ac magna commodo interdum a sit amet nisi. Sed justo orci, faucibus nec volutpat id, adipiscing risus. ' +
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer et est id magna posuere feugiat. Maecenas quis ips arcu. ' +
-  'Integer vitae massa elit, eu scelerisque odio. Nunc eros dui, luctus sed hendrerit et, volutpat quis sapien. Sed nec ' +
-  'laoreet odio. Proin vel tortor at nisl venenatis porta. Maecenas auctor, orci non rutrum molestie, nulla quam accumsan ' +
-  'sapien, in interdum turpis lorem in neque. Duis eu lorem sed dui pretium commodo. In nec est nulla. Etiam sit dapibus neque.'
+  'Integer vitae massa elit, eu scelerisque odio.'
 ];
 
 $('input,select,textarea').each(function () {
@@ -39,11 +29,10 @@ $('input,select,textarea').each(function () {
   ft = this.type;
   tag = this.tagName.toLowerCase();
 
-  if (ft == 'hidden' || ft == 'button' || ft == 'submit' || ft == 'image' || this.disabled || this.readOnly) {
-    return;
-  }
-
-  if (this.offsetWidth === 0 || this.offsetHeight === 0 || this.style.display == 'none') {
+  if (
+    ft == 'hidden' || ft == 'button' || ft == 'submit' || ft == 'image' || this.disabled || this.readOnly ||
+    this.offsetWidth === 0 || this.offsetHeight === 0 || this.style.display == 'none'
+  ) {
     return;
   }
 
@@ -162,7 +151,7 @@ function _tel(z) {
   var d = _ddd();
   var tel = '' + n2 + n5 + n4 + n2 + '-' + n3 + n3 + n4 + n1;
 
-  /* Só adiciona o DDD se o campo DDD não existir */
+  // Só adiciona o DDD se o campo DDD não existir
   var ret = ($('input[name^="ddd"]').length === 0) ? '(' + d + ') ' + tel : tel;
 
   if (on) {
@@ -182,7 +171,7 @@ function _cel(z) {
   var d = _ddd();
   var tel = '' + n2 + n5 + n4 + n2 + '-' + n3 + n3 + n4 + n1;
 
-  /* Só adiciona o DDD se o campo DDD não existir */
+  // Só adiciona o DDD se o campo DDD não existir
   var ret = ($('input[name^="ddd"]').length === 0) ? (d == 11) ? '(' + d + ') 9' + tel : '(' + d + ') ' + tel : tel;
 
   if (on) {
