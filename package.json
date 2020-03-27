@@ -11,12 +11,13 @@
   "scripts": {
     "build": "gulp build",
     "demo": "gulp demo",
-    "bookmarklet": "bookmarklet ./fillform.js ./dist/bookmarklet.js",
-    "bookmarkletDemo": "bookmarklet --demo ./fillform.js ./dist/demo.html"
+    "bookmarklet": "bookmarklet ./fill-form.js ./dist/fill-form.js",
+    "bookmarkletDemo": "bookmarklet --demo ./fill-form.js ./dist/fill-form.html"
   },
   "dependencies": {
     "bookmarklet": "1.0.4",
     "del": "5.1.0",
-    "gulp": "4.0.2"
+    "gulp": "4.0.2",
+    "gulp-tap": "2.0.0"
   }
 }

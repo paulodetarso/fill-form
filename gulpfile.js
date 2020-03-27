@@ -6,11 +6,19 @@
 const del = require('del');
 const gulp = require('gulp');
 const exec = require('child_process').exec;
+const fs = require('fs');
+const tap = require('gulp-tap');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 // Diretório de publicação dos arquivos
-const distDir = 'dist';
+const dirs = {
+  src: '.',
+  dist: 'dist',
+};
+
+// Nome do arquivo gerado com o código do bookmarklet
+const fileName = 'fill-form';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -25,7 +33,19 @@ function bookmarkletTask() {
  * Executa a criação do demo do bookmarklet
  */
 function bookmarkletDemoTask() {
-  return exec('npm run bookmarkletDemo');
+  return gulp.src(`${dirs.src}/${fileName}.html`)
+    .pipe(tap(replaceVariables))
+    .pipe(gulp.dest(dirs.dist));
+}
+
+/**
+ * Efetua a substituição da variável com o conteúdo do bookmarklet no arquivo de demonstração
+ *
+ * @param file - Referência ao arquivo HTML com o conteúdo da demonstração
+ */
+function replaceVariables(file) {
+  const bookmarkletCode = fs.readFileSync(`${dirs.dist}/${fileName}.js`, 'utf8');
+  file.contents = new Buffer.from(String(file.contents).replace(/{{BOOKMARKLET_CODE}}/, bookmarkletCode));
 }
 
 /**
@@ -34,14 +54,14 @@ function bookmarkletDemoTask() {
 function createDistTask() {
   return gulp
     .src('*.*', { read: false })
-    .pipe(gulp.dest(distDir));
+    .pipe(gulp.dest(dirs.dist));
 }
 
 /**
  * Exclui o diretório de publicação (normalmente utilizado antes de gerar novos arquivos)
  */
 function cleanDistTask() {
-  return del([distDir]);
+  return del([dirs.dist]);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -57,6 +77,9 @@ const gulpBuild = gulp.series(
 const gulpDemo = gulp.series(
   cleanDistTask,
   createDistTask,
+  gulp.parallel(
+    bookmarkletTask,
+  ),
   gulp.parallel(
     bookmarkletDemoTask
   )

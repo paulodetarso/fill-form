@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+  <meta
+    http-equiv="X-UA-Compatible"
+    content="ie=edge"
+  >
+  <title>Formulários</title>
+  <style>
+    * {
+      font-family: Consolas, 'Lucida Console', 'Courier New', monospace;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 18px;
+    }
+
+    body {
+      padding: 0.9rem 0.9rem 3rem;
+      margin: 0;
+      font-size: 100%;
+      background-color: #fcfcfc;
+    }
+
+    .card {
+      padding: 0.9rem;
+      border-radius: 5px;
+      box-shadow: 0 1px 3px rgba(80, 80, 80, 0.2);
+    }
+
+    .card+.card,
+    .box {
+      margin-top: 2rem;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-right: -0.9rem;
+      margin-left: -0.9rem;
+    }
+
+    .col,
+    .col-6 {
+      flex-basis: 0;
+      flex-grow: 1;
+      max-width: 100%;
+      padding-right: 0.9rem;
+      padding-left: 0.9rem;
+    }
+
+    h1 {
+      padding: 5px 0.9rem;
+      margin: -0.9rem -0.9rem 10px;
+      color: #134ef1;
+      font-size: 140%;
+      border-bottom: 1px solid #dfdfdf;
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+    }
+
+    h2 {
+      margin: 0 0 5px;
+      color: #666;
+      font-size: 120%;
+    }
+
+    [type="text"],
+    [type="password"],
+    [type="url"],
+    [type="email"],
+    [type="tel"],
+    [type="number"],
+    select,
+    textarea {
+      display: inline-block;
+      width: 100%;
+      padding: 5px;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      background-color: #fcfcfc;
+      box-shadow: 0 0 0 1px rgba(80, 80, 80, 0.1);
+    }
+
+    .input-wrapper:hover {
+      background-color: #eef2ff;
+    }
+
+    .input-wrapper+.input-wrapper {
+      margin-top: 5px;
+    }
+
+    label {
+      display: block;
+      width: 100%;
+      margin-left: 5px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    em {
+      display: inline-block;
+      color: #999;
+    }
+
+    .fill-form {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      opacity: 0.4;
+      padding: 10px 15px;
+      color: #fff;
+      text-decoration: none;
+      background-color: #50dcf3;
+      border-radius: 5em;
+      box-shadow: 0 2px 3px rgba(80, 80, 80, 0.4);
+    }
+
+    .fill-form:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <a
+    class="fill-form"
+    href="{{BOOKMARKLET_CODE}}"
+  >
+    Fill Form
+  </a>
+
+  <section class="card">
+    <h1>&lt;input type="text"&gt;</h1>
+
+    <div class="row">
+      <div class="col">
+        <h2> Campo "normal" </h2>
+        <input
+          type="text"
+          name="name-do-input"
+          id="input-text"
+          placeholder="Este é o placeholder do input type='text'"
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo preenchido </h2>
+        <input
+          type="text"
+          name="name-do-input"
+          id="input-text-preenchido"
+          placeholder="Este é o placeholder do input type='text'"
+          class="has-value"
+          value="Campo preenchido"
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo 'disabled' </h2>
+        <input
+          type="text"
+          name="name-do-input"
+          id="input-text-disabled"
+          placeholder="Este é o placeholder do input type='text'"
+          disabled
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo 'readonly' </h2>
+        <input
+          type="text"
+          name="name-do-input"
+          id="input-text-readonly"
+          placeholder="Este é o placeholder do input type='text'"
+          readonly
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h1>&lt;input type="password"&gt;</h1>
+
+    <div class="row">
+      <div class="col">
+        <h2> Campo "normal" </h2>
+        <input
+          type="password"
+          name="name-do-input"
+          id="input-password"
+          placeholder="Este é o placeholder do input type='password'"
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo preenchido </h2>
+        <input
+          type="password"
+          name="name-do-input"
+          id="input-password-preenchido"
+          placeholder="Este é o placeholder do input type='password'"
+          class="has-value"
+          value="Senha preenchida"
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo 'disabled' </h2>
+        <input
+          type="password"
+          name="name-do-input"
+          id="input-password-disabled"
+          placeholder="Este é o placeholder do input type='password'"
+          disabled
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo 'readonly' </h2>
+        <input
+          type="password"
+          name="name-do-input"
+          id="input-password-readonly"
+          placeholder="Este é o placeholder do input type='password'"
+          readonly
+        >
+      </div>
+    </div>
+
+  </section>
+
+  <section class="card">
+    <h1>&lt;input type="url"&gt;</h1>
+
+    <div class="row">
+      <div class="col">
+        <h2> Campo "normal" </h2>
+        <input
+          type="url"
+          name="name-do-input"
+          id="input-url"
+          placeholder="Este é o placeholder do input type='url'"
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo preenchido </h2>
+        <input
+          type="url"
+          name="name-do-input"
+          id="input-url-preenchido"
+          placeholder="Este é o placeholder do input type='url'"
+          class="has-value"
+          value="http://www.site.com"
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo 'disabled' </h2>
+        <input
+          type="url"
+          name="name-do-input"
+          id="input-url-disabled"
+          placeholder="Este é o placeholder do input type='url'"
+          disabled
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo 'readonly' </h2>
+        <input
+          type="url"
+          name="name-do-input"
+          id="input-url-readonly"
+          placeholder="Este é o placeholder do input type='url'"
+          readonly
+        >
+      </div>
+    </div>
+
+  </section>
+
+  <section class="card">
+    <h1>&lt;input type="email"&gt;</h1>
+
+    <div class="row">
+      <div class="col">
+        <h2> Campo "normal" </h2>
+        <input
+          type="email"
+          name="name-do-input"
+          id="input-email"
+          placeholder="Este é o placeholder do input type='email'"
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo preenchido </h2>
+        <input
+          type="email"
+          name="name-do-input"
+          id="input-email-preenchido"
+          placeholder="Este é o placeholder do input type='email'"
+          class="has-value"
+          value="email@dominio.com"
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo 'disabled' </h2>
+        <input
+          type="email"
+          name="name-do-input"
+          id="input-email-disabled"
+          placeholder="Este é o placeholder do input type='email'"
+          disabled
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo 'readonly' </h2>
+        <input
+          type="email"
+          name="name-do-input"
+          id="input-email-readonly"
+          placeholder="Este é o placeholder do input type='email'"
+          readonly
+        >
+      </div>
+    </div>
+
+  </section>
+
+  <section class="card">
+    <h1>&lt;input type="tel"&gt;</h1>
+
+    <div class="row">
+      <div class="col">
+        <h2> Campo "normal" </h2>
+        <input
+          type="tel"
+          name="name-do-input"
+          id="input-tel"
+          placeholder="Este é o placeholder do input type='tel'"
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo preenchido </h2>
+        <input
+          type="tel"
+          name="name-do-input"
+          id="input-tel-preenchido"
+          placeholder="Este é o placeholder do input type='tel'"
+          class="has-value"
+          value="11987654321"
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo 'disabled' </h2>
+        <input
+          type="tel"
+          name="name-do-input"
+          id="input-tel-disabled"
+          placeholder="Este é o placeholder do input type='tel'"
+          disabled
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo 'readonly' </h2>
+        <input
+          type="tel"
+          name="name-do-input"
+          id="input-tel-readonly"
+          placeholder="Este é o placeholder do input type='tel'"
+          readonly
+        >
+      </div>
+    </div>
+
+  </section>
+
+  <section class="card">
+    <h1>&lt;input type="number"&gt;</h1>
+
+    <div class="row">
+      <div class="col">
+        <h2> Campo "normal" </h2>
+        <input
+          type="number"
+          name="name-do-input"
+          id="input-number"
+          placeholder="Este é o placeholder do input type='number'"
+          min="1"
+          max="500"
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo preenchido </h2>
+        <input
+          type="number"
+          name="name-do-input"
+          id="input-number-preenchido"
+          placeholder="Este é o placeholder do input type='number'"
+          class="has-value"
+          value="400"
+          min="1"
+          max="500"
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo 'disabled' </h2>
+        <input
+          type="number"
+          name="name-do-input"
+          id="input-number-disabled"
+          placeholder="Este é o placeholder do input type='number'"
+          min="1"
+          max="500"
+          disabled
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo 'readonly' </h2>
+        <input
+          type="number"
+          name="name-do-input"
+          id="input-number-readonly"
+          placeholder="Este é o placeholder do input type='number'"
+          min="1"
+          max="500"
+          readonly
+        >
+      </div>
+    </div>
+
+  </section>
+
+  <section class="card">
+    <h1>&lt;input type="file"&gt;</h1>
+
+    <div class="row">
+      <div class="col">
+        <h2> Campo "normal" </h2>
+        <input
+          type="file"
+          name="name-do-input"
+          id="input-file"
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo preenchido </h2>
+        <em>(não aplicável)</em>
+      </div>
+
+      <div class="col">
+        <h2> Campo 'disabled' </h2>
+        <input
+          type="file"
+          id="input-file-disabled"
+          disabled
+        >
+      </div>
+
+      <div class="col">
+        <h2> Campo 'readonly' </h2>
+        <em>(não aplicável)</em>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="card">
+    <h1>&lt;select&gt;</h1>
+
+    <div class="row">
+      <div class="col">
+        <h2> Campo "normal" </h2>
+        <select
+          name="name-do-input"
+          id="select"
+        >
+          <option value="">Selecione...</option>
+          <option value="1">Opção 1</option>
+          <option value="2">Opção 2</option>
+          <option value="3">Opção 3</option>
+        </select>
+      </div>
+
+      <div class="col">
+        <h2> Campo preenchido </h2>
+        <select
+          name="name-do-input"
+          id="select-preenchido"
+        >
+          <option value="">
+            Selecione...
+          </option>
+          <option value="1">
+            Opção 1
+          </option>
+          <option
+            value="2"
+            selected
+          >
+            Opção 2
+          </option>
+          <option value="3">
+            Opção 3
+          </option>
+        </select>
+      </div>
+
+      <div class="col">
+        <h2> Campo 'disabled' </h2>
+        <select
+          name="name-do-input"
+          id="select-disabled"
+          disabled
+        >
+          <option value="">Selecione...</option>
+          <option value="1">Opção 1</option>
+          <option value="2">Opção 2</option>
+          <option value="3">Opção 3</option>
+        </select>
+      </div>
+
+      <div class="col">
+        <h2> Campo 'readonly' </h2>
+        <em>(não aplicável)</em>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="card">
+    <h1>&lt;textarea&gt;</h1>
+
+    <div class="row">
+      <div class="col">
+        <h2> Campo "normal" </h2>
+        <textarea
+          name="name-do-input"
+          rows="5"
+          id="textarea"
+        ></textarea>
+      </div>
+
+      <div class="col">
+        <h2> Campo preenchido </h2>
+        <textarea
+          name="name-do-input"
+          rows="5"
+          id="textarea-preenchido"
+        >Fugiat aliquip exercitation labore incididunt ullamco voluptate consequat officia qui nisi veniam.
+
+Officia enim elit ipsum commodo duis quis consequat.
+
+Consectetur aliqua quis duis anim amet ullamco.</textarea>
+      </div>
+
+      <div class="col">
+        <h2> Campo 'disabled' </h2>
+        <textarea
+          name="name-do-input"
+          rows="5"
+          id="textarea-disabled"
+          disabled
+        ></textarea>
+      </div>
+
+      <div class="col">
+        <h2> Campo 'readonly' </h2>
+        <textarea
+          name="name-do-input"
+          rows="5"
+          id="textarea-readonly"
+          readonly
+        ></textarea>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="box">
+    <div class="row">
+      <div class="col-6">
+
+        <section class="card">
+          <h1>&lt;input type="radio"&gt;</h1>
+
+          <div class="input-wrapper">
+            <input
+              type="radio"
+              name="name-do-input-radio"
+              id="input-radio-unchecked"
+              value="input-radio-unchecked"
+            >
+            <label for="input-radio-unchecked"> Unchecked </label>
+          </div>
+
+          <div class="input-wrapper">
+            <input
+              type="radio"
+              name="name-do-input-radio"
+              id="input-radio-checked"
+              value="input-radio-checked"
+              checked
+            >
+            <label for="input-radio-checked"> Checked </label>
+          </div>
+
+          <div class="input-wrapper">
+            <input
+              type="radio"
+              name="name-do-input-radio-disabled"
+              id="input-radio-disabled"
+              value="input-radio-disabled"
+              disabled
+            >
+            <label for="input-radio-disabled"> Disabled </label>
+          </div>
+
+          <div class="input-wrapper">
+            <input
+              type="radio"
+              name="name-do-input-radio-checked-disabled"
+              id="input-radio-checked-disabled"
+              value="input-radio-checked-disabled"
+              checked
+              disabled
+            >
+            <label for="input-radio-checked-disabled"> Checked + Disabled </label>
+          </div>
+
+        </section>
+
+      </div>
+      <div class="col-6">
+
+        <section class="card">
+          <h1>&lt;input type="checkbox"&gt;</h1>
+
+          <div class="input-wrapper">
+            <input
+              type="checkbox"
+              name="name-do-input-checkbox"
+              id="input-checkbox-unchecked"
+              value="input-checkbox-unchecked"
+            >
+            <label for="input-checkbox-unchecked"> Unchecked </label>
+          </div>
+
+          <div class="input-wrapper">
+            <input
+              type="checkbox"
+              name="name-do-input-checkbox"
+              id="input-checkbox-checked"
+              value="input-checkbox-checked"
+              checked
+            >
+            <label for="input-checkbox-checked"> Checked </label>
+          </div>
+
+          <div class="input-wrapper">
+            <input
+              type="checkbox"
+              name="name-do-input-checkbox-disabled"
+              id="input-checkbox-disabled"
+              value="input-checkbox-disabled"
+              disabled
+            >
+            <label for="input-checkbox-disabled"> Disabled </label>
+          </div>
+
+          <div class="input-wrapper">
+            <input
+              type="checkbox"
+              name="name-do-input-checkbox-checked-disabled"
+              id="input-checkbox-checked-disabled"
+              value="input-checkbox-checked-disabled"
+              checked
+              disabled
+            >
+            <label for="input-checkbox-checked-disabled"> Checked + Disabled </label>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

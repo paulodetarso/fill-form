@@ -10,7 +10,7 @@ $ gulp
 $ gulp build
 $ npm run build
 ```
-O código será gerado no arquivo `dist/bookmarklet.js`, basta copiar e colar o conteúdo desse arquivo em um link salvo na barra de favoritos, por exemplo.
+O código será gerado no arquivo `dist/fill-form.js`, basta copiar e colar o conteúdo desse arquivo em um link salvo na barra de favoritos, por exemplo.
 
 ## Demonstração
 
@@ -19,7 +19,7 @@ Com o **Fill Form** também temos a opção para gerar uma página de demonstra�
 $ gulp demo
 $ npm run demo
 ```
-Será gerado um arquivo `dist/demo.html` com um botão, que contém o código do _bookmarklet_.
+Será gerado um arquivo `dist/fill-form.html` com um formulário HTML e um botão, que contém o código do _bookmarklet_, é só cicar nesse botão e o formulário será preenchido automaticamente!
 
 ## Referência
 
