@@ -1,0 +1,28 @@
+# Compiled output
+/dist
+
+# Dependencies
+/node_modules
+package-lock.json
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+/.idea
+.c9/
+.settings/
+*.launch
+*.sublime-workspace
+.classpath
+.project
+.vscode
+.vscode/
+/.vscode
+
+# Miscellaneous
+/# temp
+npm-debug.log
+yarn-error.log
+.npmrc

@@ -1,10 +1,30 @@
-# Fill Formers
+# Fill Form
 
-Para gerar um novo bookmarklet, siga os passos abaixo:
+**Fill Form** é uma ferramenta que utiliza um _bookmarklet_ para preenchimento de formulários com dados fictícios, utilizando _Lorem Ipsum_.
 
-1. Crie uma versão minificada do conteúdo que será incluído no Bookmarklet ¹;
-2. Acesse o site http://mrcoles.com/bookmarklet/
-3. Cole o conteúdo no campo especificado, marcando a opção "Include jQuery"
-4. Copie o código gerado e divirta-se!
+## Utilização
 
-¹ = Para minificar conteúdo: https://jscompress.com/
+Para gerar o código do _bookmarklet_, utilize um dos comandos abaixo:
+```console
+$ gulp
+$ gulp build
+$ npm run build
+```
+O código será gerado no arquivo `dist/bookmarklet.js`, basta copiar e colar o conteúdo desse arquivo em um link salvo na barra de favoritos, por exemplo.
+
+## Demonstração
+
+Com o **Fill Form** também temos a opção para gerar uma página de demonstração da ferramenta. Execute um dos comandos abaixo:
+```console
+$ gulp demo
+$ npm run demo
+```
+Será gerado um arquivo `dist/demo.html` com um botão, que contém o código do _bookmarklet_.
+
+## Referência
+
+https://github.com/mrcoles/bookmarklet
+
+## Autor
+
+Paulo de Tarso Furtado Machado - Mar/2020

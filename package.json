@@ -1,0 +1,22 @@
+{
+  "name": "fill-form",
+  "version": "3.0.0",
+  "description": "Fill Form: Bookmarklet para preenchimento de formulários com dados fictícios, utilizando Lorem Ipsum",
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/paulodetarsofm/fill-form.git"
+  },
+  "author": "Paulo de Tarso Furtado Machado",
+  "license": "ISC",
+  "scripts": {
+    "build": "gulp build",
+    "demo": "gulp demo",
+    "bookmarklet": "bookmarklet ./src/fillform.js ./dist/bookmarklet.js",
+    "bookmarkletDemo": "bookmarklet --demo ./src/fillform.js ./dist/demo.html"
+  },
+  "dependencies": {
+    "bookmarklet": "1.0.4",
+    "del": "5.1.0",
+    "gulp": "4.0.2"
+  }
+}
