@@ -11,8 +11,8 @@
   "scripts": {
     "build": "gulp build",
     "demo": "gulp demo",
-    "bookmarklet": "bookmarklet ./src/fillform.js ./dist/bookmarklet.js",
-    "bookmarkletDemo": "bookmarklet --demo ./src/fillform.js ./dist/demo.html"
+    "bookmarklet": "bookmarklet ./fillform.js ./dist/bookmarklet.js",
+    "bookmarkletDemo": "bookmarklet --demo ./fillform.js ./dist/demo.html"
   },
   "dependencies": {
     "bookmarklet": "1.0.4",
