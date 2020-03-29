@@ -29,6 +29,32 @@
       background-color: #fcfcfc;
     }
 
+    h1 {
+      margin: 0 0 1rem;
+      font-size: 160%;
+    }
+
+    code,
+    .is-code {
+      color: #048500;
+      font-size: 90%;
+      white-space: pre-line;
+      background-color: #e7e7e7;
+      border-radius: 5px;
+    }
+
+    code {
+      padding-right: 0.5em;
+      padding-left: 0.5em;
+    }
+
+    .is-code {
+      padding: 0 1.2em 1.2em;
+      margin-bottom: 2rem;
+      line-height: 1.2em;
+      box-shadow: 0 0 0 1px #ccc inset;
+    }
+
     .card {
       padding: 0.9rem;
       border-radius: 5px;
@@ -56,7 +82,7 @@
       padding-left: 0.9rem;
     }
 
-    h1 {
+    h3 {
       padding: 5px 0.9rem;
       margin: -0.9rem -0.9rem 10px;
       color: #134ef1;
@@ -66,10 +92,11 @@
       border-top-left-radius: 5px;
     }
 
-    h2 {
+    h4 {
       margin: 0 0 5px;
       color: #666;
-      font-size: 120%;
+      font-size: 80%;
+      font-weight: normal;
     }
 
     [type="text"],
@@ -142,50 +169,97 @@
     Fill Form
   </a>
 
+  <h1>Fill Form</h1>
+  <p>
+    O <strong>Fill Form</strong> é uma ferramenta para preechimento automático de formulários com dados aleatórios e
+    fictícios, baseados em <em>Lorem ipsum</em> ou sequências pré-definidas de letras e números.
+  </p>
+  <p>
+    Não são todos os tipos de campos que a ferramenta preenche, apenas os seguintes campos:
+  </p>
+  <p class="is-code">
+    &lt;input type="text"&gt;
+    &lt;input type="password"&gt;
+    &lt;input type="url"&gt;
+    &lt;input type="email"&gt;
+    &lt;input type="tel"&gt;
+    &lt;input type="number"&gt;
+    &lt;input type="radio"&gt;
+    &lt;input type="checkbox"&gt;
+    &lt;select&gt;
+    &lt;textarea&gt;
+  </p>
+  <p>
+    Outro detalhe importante sobre o <strong>Fill Form</strong>: campos que estão desativados (atributo
+    <code>disabled</code>) ou forem somente leitura (atributo <code>readonly</code>), ou ainda os campos que não estejam
+    visíveis na tela nesse momento (escondidos via CSS ou atributos como o <code>hidden</code>, por exemplo), nenhum
+    desses campos será alterado.
+  </p>
+
+  <h2>Campos com máscaras</h2>
+  <p>
+    Caso o site ou ferramenta no qual o formulário que será preenchido pelo <strong>Fill Form</strong> esteja utilizando
+    algum plugin de máscara de jQuery, por exemplo, esses campos receberão os novos valores e receberão automaticamente
+    a máscara definida em cada campo. Caso não seja possível aplicar a máscara, talvez você tenha que preencher esses
+    campos manualmente.
+  </p>
+
+  <h2>Demonstração</h2>
+  <p>
+    Você pode testar o <strong>Fill Form</strong> e ver como ele funciona aqui nessa página, para isso basta preessionar
+    o botão posicionado no canto superior da página.
+  </p>
+  <p>
+    Além de preencher os campos automaticamente quando possível, caso algum campo do formulário esteja sem atributos
+    como o <code>maxlength</code>, por exemplo, que pode ser aplicado em alguns tipos de <code>&lt;input&gt;</code>, o
+    <strong>Fill Form</strong> exibirá uma janela modal com alguns avisos importantes sobre o formulário que está sendo
+    preenchido.
+  </p>
+
   <section class="card">
-    <h1>&lt;input type="text"&gt;</h1>
+    <h3>&lt;input type="text"&gt;</h3>
 
     <div class="row">
       <div class="col">
-        <h2> Campo "normal" </h2>
+        <h4> Não preenchido </h4>
         <input
           type="text"
-          name="name-do-input"
+          name="input-text"
           id="input-text"
-          placeholder="Este é o placeholder do input type='text'"
+          maxlength="50"
         >
       </div>
 
       <div class="col">
-        <h2> Campo preenchido </h2>
+        <h4> Preenchido: <code>value="Campo preenchido"</code> </h4>
         <input
           type="text"
-          name="name-do-input"
+          name="input-text-preenchido"
           id="input-text-preenchido"
-          placeholder="Este é o placeholder do input type='text'"
           class="has-value"
           value="Campo preenchido"
+          maxlength="50"
         >
       </div>
 
       <div class="col">
-        <h2> Campo 'disabled' </h2>
+        <h4> 'disabled' </h4>
         <input
           type="text"
-          name="name-do-input"
+          name="input-text-disabled"
           id="input-text-disabled"
-          placeholder="Este é o placeholder do input type='text'"
+          maxlength="50"
           disabled
         >
       </div>
 
       <div class="col">
-        <h2> Campo 'readonly' </h2>
+        <h4> 'readonly' </h4>
         <input
           type="text"
-          name="name-do-input"
+          name="input-text-readonly"
           id="input-text-readonly"
-          placeholder="Este é o placeholder do input type='text'"
+          maxlength="50"
           readonly
         >
       </div>
@@ -193,49 +267,49 @@
   </section>
 
   <section class="card">
-    <h1>&lt;input type="password"&gt;</h1>
+    <h3>&lt;input type="password"&gt;</h3>
 
     <div class="row">
       <div class="col">
-        <h2> Campo "normal" </h2>
+        <h4> Não preenchido </h4>
         <input
           type="password"
-          name="name-do-input"
+          name="input-password"
           id="input-password"
-          placeholder="Este é o placeholder do input type='password'"
+          maxlength="30"
         >
       </div>
 
       <div class="col">
-        <h2> Campo preenchido </h2>
+        <h4> Preenchido: <code>value="Senha preenchida"</code> </h4>
         <input
           type="password"
-          name="name-do-input"
+          name="input-password-preenchido"
           id="input-password-preenchido"
-          placeholder="Este é o placeholder do input type='password'"
           class="has-value"
           value="Senha preenchida"
+          maxlength="30"
         >
       </div>
 
       <div class="col">
-        <h2> Campo 'disabled' </h2>
+        <h4> 'disabled' </h4>
         <input
           type="password"
-          name="name-do-input"
+          name="input-password-disabled"
           id="input-password-disabled"
-          placeholder="Este é o placeholder do input type='password'"
+          maxlength="30"
           disabled
         >
       </div>
 
       <div class="col">
-        <h2> Campo 'readonly' </h2>
+        <h4> 'readonly' </h4>
         <input
           type="password"
-          name="name-do-input"
+          name="input-password-readonly"
           id="input-password-readonly"
-          placeholder="Este é o placeholder do input type='password'"
+          maxlength="30"
           readonly
         >
       </div>
@@ -244,49 +318,49 @@
   </section>
 
   <section class="card">
-    <h1>&lt;input type="url"&gt;</h1>
+    <h3>&lt;input type="url"&gt;</h3>
 
     <div class="row">
       <div class="col">
-        <h2> Campo "normal" </h2>
+        <h4> Não preenchido </h4>
         <input
           type="url"
-          name="name-do-input"
+          name="input-url"
           id="input-url"
-          placeholder="Este é o placeholder do input type='url'"
+          maxlength="100"
         >
       </div>
 
       <div class="col">
-        <h2> Campo preenchido </h2>
+        <h4> Preenchido: <code>value="http://www.site.com"</code> </h4>
         <input
           type="url"
-          name="name-do-input"
+          name="input-url-preenchido"
           id="input-url-preenchido"
-          placeholder="Este é o placeholder do input type='url'"
           class="has-value"
           value="http://www.site.com"
+          maxlength="100"
         >
       </div>
 
       <div class="col">
-        <h2> Campo 'disabled' </h2>
+        <h4> 'disabled' </h4>
         <input
           type="url"
-          name="name-do-input"
+          name="input-url-disabled"
           id="input-url-disabled"
-          placeholder="Este é o placeholder do input type='url'"
+          maxlength="100"
           disabled
         >
       </div>
 
       <div class="col">
-        <h2> Campo 'readonly' </h2>
+        <h4> 'readonly' </h4>
         <input
           type="url"
-          name="name-do-input"
+          name="input-url-readonly"
           id="input-url-readonly"
-          placeholder="Este é o placeholder do input type='url'"
+          maxlength="100"
           readonly
         >
       </div>
@@ -295,49 +369,49 @@
   </section>
 
   <section class="card">
-    <h1>&lt;input type="email"&gt;</h1>
+    <h3>&lt;input type="email"&gt;</h3>
 
     <div class="row">
       <div class="col">
-        <h2> Campo "normal" </h2>
+        <h4> Não preenchido </h4>
         <input
           type="email"
-          name="name-do-input"
+          name="input-email"
           id="input-email"
-          placeholder="Este é o placeholder do input type='email'"
+          maxlength="100"
         >
       </div>
 
       <div class="col">
-        <h2> Campo preenchido </h2>
+        <h4> Preenchido: <code>value="email@dominio.com"</code> </h4>
         <input
           type="email"
-          name="name-do-input"
+          name="input-email-preenchido"
           id="input-email-preenchido"
-          placeholder="Este é o placeholder do input type='email'"
           class="has-value"
           value="email@dominio.com"
+          maxlength="100"
         >
       </div>
 
       <div class="col">
-        <h2> Campo 'disabled' </h2>
+        <h4> 'disabled' </h4>
         <input
           type="email"
-          name="name-do-input"
+          name="input-email-disabled"
           id="input-email-disabled"
-          placeholder="Este é o placeholder do input type='email'"
+          maxlength="100"
           disabled
         >
       </div>
 
       <div class="col">
-        <h2> Campo 'readonly' </h2>
+        <h4> 'readonly' </h4>
         <input
           type="email"
-          name="name-do-input"
+          name="input-email-readonly"
           id="input-email-readonly"
-          placeholder="Este é o placeholder do input type='email'"
+          maxlength="100"
           readonly
         >
       </div>
@@ -346,49 +420,49 @@
   </section>
 
   <section class="card">
-    <h1>&lt;input type="tel"&gt;</h1>
+    <h3>&lt;input type="tel"&gt;</h3>
 
     <div class="row">
       <div class="col">
-        <h2> Campo "normal" </h2>
+        <h4> Não preenchido </h4>
         <input
           type="tel"
-          name="name-do-input"
+          name="input-tel"
           id="input-tel"
-          placeholder="Este é o placeholder do input type='tel'"
+          maxlength="20"
         >
       </div>
 
       <div class="col">
-        <h2> Campo preenchido </h2>
+        <h4> Preenchido: <code>value="11987654321"</code> </h4>
         <input
           type="tel"
-          name="name-do-input"
+          name="input-tel-preenchido"
           id="input-tel-preenchido"
-          placeholder="Este é o placeholder do input type='tel'"
           class="has-value"
           value="11987654321"
+          maxlength="20"
         >
       </div>
 
       <div class="col">
-        <h2> Campo 'disabled' </h2>
+        <h4> 'disabled' </h4>
         <input
           type="tel"
-          name="name-do-input"
+          name="input-tel-disabled"
           id="input-tel-disabled"
-          placeholder="Este é o placeholder do input type='tel'"
+          maxlength="20"
           disabled
         >
       </div>
 
       <div class="col">
-        <h2> Campo 'readonly' </h2>
+        <h4> 'readonly' </h4>
         <input
           type="tel"
-          name="name-do-input"
+          name="input-tel-readonly"
           id="input-tel-readonly"
-          placeholder="Este é o placeholder do input type='tel'"
+          maxlength="20"
           readonly
         >
       </div>
@@ -397,28 +471,26 @@
   </section>
 
   <section class="card">
-    <h1>&lt;input type="number"&gt;</h1>
+    <h3>&lt;input type="number"&gt;</h3>
 
     <div class="row">
       <div class="col">
-        <h2> Campo "normal" </h2>
+        <h4> Não preenchido </h4>
         <input
           type="number"
-          name="name-do-input"
+          name="input-number"
           id="input-number"
-          placeholder="Este é o placeholder do input type='number'"
           min="1"
           max="500"
         >
       </div>
 
       <div class="col">
-        <h2> Campo preenchido </h2>
+        <h4> Preenchido: <code>value="400"</code> </h4>
         <input
           type="number"
-          name="name-do-input"
+          name="input-number-preenchido"
           id="input-number-preenchido"
-          placeholder="Este é o placeholder do input type='number'"
           class="has-value"
           value="400"
           min="1"
@@ -427,12 +499,11 @@
       </div>
 
       <div class="col">
-        <h2> Campo 'disabled' </h2>
+        <h4> 'disabled' </h4>
         <input
           type="number"
-          name="name-do-input"
+          name="input-number-disabled"
           id="input-number-disabled"
-          placeholder="Este é o placeholder do input type='number'"
           min="1"
           max="500"
           disabled
@@ -440,12 +511,11 @@
       </div>
 
       <div class="col">
-        <h2> Campo 'readonly' </h2>
+        <h4> 'readonly' </h4>
         <input
           type="number"
-          name="name-do-input"
+          name="input-number-readonly"
           id="input-number-readonly"
-          placeholder="Este é o placeholder do input type='number'"
           min="1"
           max="500"
           readonly
@@ -456,35 +526,35 @@
   </section>
 
   <section class="card">
-    <h1>&lt;input type="file"&gt;</h1>
+    <h3>&lt;input type="file"&gt;</h3>
 
     <div class="row">
       <div class="col">
-        <h2> Campo "normal" </h2>
+        <h4> Não preenchido </h4>
         <input
           type="file"
-          name="name-do-input"
+          name="input-file"
           id="input-file"
         >
       </div>
 
       <div class="col">
-        <h2> Campo preenchido </h2>
+        <h4> Preenchido: <code>value="Campo preenchido"</code> </h4>
         <em>(não aplicável)</em>
       </div>
 
       <div class="col">
-        <h2> Campo 'disabled' </h2>
+        <h4> 'disabled' </h4>
         <input
           type="file"
-          name="name-do-input"
+          name="input-file-disabled"
           id="input-file-disabled"
           disabled
         >
       </div>
 
       <div class="col">
-        <h2> Campo 'readonly' </h2>
+        <h4> 'readonly' </h4>
         <em>(não aplicável)</em>
       </div>
     </div>
@@ -492,50 +562,57 @@
   </section>
 
   <section class="card">
-    <h1>&lt;select&gt;</h1>
+    <h3>&lt;select&gt;</h3>
 
     <div class="row">
       <div class="col">
-        <h2> Campo "normal" </h2>
+        <h4> Não preenchido </h4>
         <select
-          name="name-do-input"
+          name="select"
           id="select"
         >
           <option value="">Selecione...</option>
           <option value="1">Opção 1</option>
           <option value="2">Opção 2</option>
           <option value="3">Opção 3</option>
+          <option value="4">Opção 4</option>
+          <option value="5">Opção 5</option>
+          <option value="6">Opção 6</option>
+          <option value="7">Opção 7</option>
+          <option value="8">Opção 8</option>
+          <option value="9">Opção 9</option>
+          <option value="10">Opção 10</option>
         </select>
       </div>
 
       <div class="col">
-        <h2> Campo preenchido </h2>
+        <h4> Preenchido: <code>value="3"</code> </h4>
         <select
-          name="name-do-input"
+          name="select-preenchido"
           id="select-preenchido"
         >
-          <option value="">
-            Selecione...
-          </option>
-          <option value="1">
-            Opção 1
-          </option>
+          <option value="1">Opção 1</option>
+          <option value="2">Opção 2</option>
           <option
-            value="2"
+            value="3"
             selected
           >
-            Opção 2
-          </option>
-          <option value="3">
             Opção 3
           </option>
+          <option value="4">Opção 4</option>
+          <option value="5">Opção 5</option>
+          <option value="6">Opção 6</option>
+          <option value="7">Opção 7</option>
+          <option value="8">Opção 8</option>
+          <option value="9">Opção 9</option>
+          <option value="10">Opção 10</option>
         </select>
       </div>
 
       <div class="col">
-        <h2> Campo 'disabled' </h2>
+        <h4> 'disabled' </h4>
         <select
-          name="name-do-input"
+          name="select-disabled"
           id="select-disabled"
           disabled
         >
@@ -543,11 +620,18 @@
           <option value="1">Opção 1</option>
           <option value="2">Opção 2</option>
           <option value="3">Opção 3</option>
+          <option value="4">Opção 4</option>
+          <option value="5">Opção 5</option>
+          <option value="6">Opção 6</option>
+          <option value="7">Opção 7</option>
+          <option value="8">Opção 8</option>
+          <option value="9">Opção 9</option>
+          <option value="10">Opção 10</option>
         </select>
       </div>
 
       <div class="col">
-        <h2> Campo 'readonly' </h2>
+        <h4> 'readonly' </h4>
         <em>(não aplicável)</em>
       </div>
     </div>
@@ -555,25 +639,25 @@
   </section>
 
   <section class="card">
-    <h1>&lt;textarea&gt;</h1>
+    <h3>&lt;textarea&gt;</h3>
 
     <div class="row">
       <div class="col">
-        <h2> Campo "normal" </h2>
+        <h4> Não preenchido </h4>
         <textarea
-          name="name-do-input"
-          rows="5"
+          name="textarea"
           id="textarea"
+          rows="5"
         ></textarea>
       </div>
 
       <div class="col">
-        <h2> Campo preenchido </h2>
+        <h4> Preenchido: <code>My textarea: Fugiat aliquip (...)</code> </h4>
         <textarea
-          name="name-do-input"
-          rows="5"
+          name="textarea-preenchido"
           id="textarea-preenchido"
-        >Fugiat aliquip exercitation labore incididunt ullamco voluptate consequat officia qui nisi veniam.
+          rows="5"
+        >My textarea: Fugiat aliquip exercitation labore incididunt ullamco voluptate consequat officia qui nisi veniam.
 
 Officia enim elit ipsum commodo duis quis consequat.
 
@@ -581,21 +665,21 @@ Consectetur aliqua quis duis anim amet ullamco.</textarea>
       </div>
 
       <div class="col">
-        <h2> Campo 'disabled' </h2>
+        <h4> 'disabled' </h4>
         <textarea
-          name="name-do-input"
-          rows="5"
+          name="textarea-disabled"
           id="textarea-disabled"
+          rows="5"
           disabled
         ></textarea>
       </div>
 
       <div class="col">
-        <h2> Campo 'readonly' </h2>
+        <h4> 'readonly' </h4>
         <textarea
-          name="name-do-input"
-          rows="5"
+          name="textarea-readonly"
           id="textarea-readonly"
+          rows="5"
           readonly
         ></textarea>
       </div>
@@ -608,50 +692,57 @@ Consectetur aliqua quis duis anim amet ullamco.</textarea>
       <div class="col-6">
 
         <section class="card">
-          <h1>&lt;input type="radio"&gt;</h1>
+          <h3>&lt;input type="radio"&gt;</h3>
 
           <div class="input-wrapper">
             <input
               type="radio"
-              name="name-do-input-radio"
-              id="input-radio-unchecked"
-              value="input-radio-unchecked"
+              name="input-radio"
+              id="input-radio-opcao-1"
+              value="Opção 1"
             >
-            <label for="input-radio-unchecked"> Unchecked </label>
+            <label for="input-radio-opcao-1"> Opção 1 </label>
           </div>
 
           <div class="input-wrapper">
             <input
               type="radio"
-              name="name-do-input-radio"
-              id="input-radio-checked"
-              value="input-radio-checked"
-              checked
+              name="input-radio"
+              id="input-radio-opcao-2"
+              value="Opção 2"
             >
-            <label for="input-radio-checked"> Checked </label>
+            <label for="input-radio-opcao-2"> Opção 2 </label>
           </div>
 
           <div class="input-wrapper">
             <input
               type="radio"
-              name="name-do-input-radio-disabled"
-              id="input-radio-disabled"
-              value="input-radio-disabled"
+              name="input-radio"
+              id="input-radio-opcao-3"
+              value="Opção 3"
+            >
+            <label for="input-radio-opcao-3"> Opção 3 </label>
+          </div>
+
+          <div class="input-wrapper">
+            <input
+              type="radio"
+              name="input-radio"
+              id="input-radio-opcao-4"
+              value="Opção 4"
+            >
+            <label for="input-radio-opcao-4"> Opção 4 </label>
+          </div>
+
+          <div class="input-wrapper">
+            <input
+              type="radio"
+              name="input-radio"
+              id="input-radio-opcao-5"
+              value="Opção 5"
               disabled
             >
-            <label for="input-radio-disabled"> Disabled </label>
-          </div>
-
-          <div class="input-wrapper">
-            <input
-              type="radio"
-              name="name-do-input-radio-checked-disabled"
-              id="input-radio-checked-disabled"
-              value="input-radio-checked-disabled"
-              checked
-              disabled
-            >
-            <label for="input-radio-checked-disabled"> Checked + Disabled </label>
+            <label for="input-radio-opcao-5"> Opção 5 (disabled) </label>
           </div>
 
         </section>
@@ -660,50 +751,57 @@ Consectetur aliqua quis duis anim amet ullamco.</textarea>
       <div class="col-6">
 
         <section class="card">
-          <h1>&lt;input type="checkbox"&gt;</h1>
+          <h3>&lt;input type="checkbox"&gt;</h3>
 
           <div class="input-wrapper">
             <input
               type="checkbox"
-              name="name-do-input-checkbox"
-              id="input-checkbox-unchecked"
-              value="input-checkbox-unchecked"
+              name="input-checkbox[]"
+              id="input-checkbox-opcao-1"
+              value="Opção 1"
             >
-            <label for="input-checkbox-unchecked"> Unchecked </label>
+            <label for="input-checkbox-opcao-1"> Opção 1 </label>
           </div>
 
           <div class="input-wrapper">
             <input
               type="checkbox"
-              name="name-do-input-checkbox"
-              id="input-checkbox-checked"
-              value="input-checkbox-checked"
-              checked
+              name="input-checkbox[]"
+              id="input-checkbox-opcao-2"
+              value="Opção 2"
             >
-            <label for="input-checkbox-checked"> Checked </label>
+            <label for="input-checkbox-opcao-2"> Opção 2 </label>
           </div>
 
           <div class="input-wrapper">
             <input
               type="checkbox"
-              name="name-do-input-checkbox-disabled"
-              id="input-checkbox-disabled"
-              value="input-checkbox-disabled"
+              name="input-checkbox[]"
+              id="input-checkbox-opcao-3"
+              value="Opção 3"
+            >
+            <label for="input-checkbox-opcao-3"> Opção 3 </label>
+          </div>
+
+          <div class="input-wrapper">
+            <input
+              type="checkbox"
+              name="input-checkbox[]"
+              id="input-checkbox-opcao-4"
+              value="Opção 4"
+            >
+            <label for="input-checkbox-opcao-4"> Opção 4 </label>
+          </div>
+
+          <div class="input-wrapper">
+            <input
+              type="checkbox"
+              name="input-checkbox[]"
+              id="input-checkbox-opcao-5"
+              value="Opção 5"
               disabled
             >
-            <label for="input-checkbox-disabled"> Disabled </label>
-          </div>
-
-          <div class="input-wrapper">
-            <input
-              type="checkbox"
-              name="name-do-input-checkbox-checked-disabled"
-              id="input-checkbox-checked-disabled"
-              value="input-checkbox-checked-disabled"
-              checked
-              disabled
-            >
-            <label for="input-checkbox-checked-disabled"> Checked + Disabled </label>
+            <label for="input-checkbox-opcao-5"> Opção 5 (disabled) </label>
           </div>
 
         </section>
