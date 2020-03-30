@@ -2,8 +2,9 @@
 // @script https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/Bookmarklet==
 
-var avisos = new Map();
-var primeiroInput = '';
+var warnings = new Map();
+var firstInput = '';
+var itemsCheckedByGroup = new Map();
 
 /**
  * Validamos apenas os campos listados (não são todos os tipos de input que validamos como, por exemplo, `hidden` ou
@@ -24,6 +25,13 @@ var fieldsToValidate = [
 
 $(fieldsToValidate.join(',')).each(function () {
 
+  const fieldId = $(this).attr('id');
+  const fieldName = this.name;
+  const fieldType = this.type;
+  const tag = this.tagName.toLowerCase();
+
+  const isRadioOrCheckbox = (/^(radio|checkbox)$/gi.test(fieldType));
+
   /**
    * Condições em que o Fill Form não altera o valor do campo:
    *
@@ -34,17 +42,15 @@ $(fieldsToValidate.join(',')).each(function () {
    */
   if (
     this.offsetWidth === 0 || this.offsetHeight === 0 || this.style.display === 'none' ||
-    this.disabled || this.readOnly || this.value !== ''
+    this.disabled || this.readOnly || (
+      (isRadioOrCheckbox && this.checked) || // Se for radio ou checkbox e estiver checked
+      (!isRadioOrCheckbox && this.value !== '') // Se NÃO for radio ou checkbox e o value estiver definido
+    )
   ) {
     return;
   }
 
   // -------------------------------------------------------------------------------------------------------------------
-
-  const fieldId = $(this).attr('id');
-  const fieldName = this.name;
-  const fieldType = this.type;
-  const tag = this.tagName.toLowerCase();
 
   let attrId = '';
   let attrName = '';
@@ -69,8 +75,8 @@ $(fieldsToValidate.join(',')).each(function () {
    * Armazenamos o identificador do primeiro campo do formulário que não seja nem radio nem checkbox (veja a utilização
    * desse identificador após a definição do `value` do campo)
    */
-  if (primeiroInput === '' && fieldType !== 'checkbox' && fieldType !== 'radio') {
-    primeiroInput = (fieldId) ? `#${fieldId}` : `[type="${fieldType}"][name="${fieldName}"]`;
+  if (firstInput === '' && fieldType !== 'checkbox' && fieldType !== 'radio') {
+    firstInput = (fieldId) ? `#${fieldId}` : `[type="${fieldType}"][name="${fieldName}"]`;
   }
 
   // Verifica se o maxlength está definido para o campo ou não
@@ -150,16 +156,24 @@ $(fieldsToValidate.join(',')).each(function () {
 
   // Se for um radio ou checkbox, seleciona uma das opções aleatoriamente
   if (fieldType === 'checkbox' || fieldType === 'radio') {
-    const thisGroup = `[type="${fieldType}"][name="${fieldName}"]`;
+    const thisGroup = `[type="${fieldType}"][name="${fieldName}"]:not(:disabled)`;
 
-    $(thisGroup).each(function () {
-      this.checked = false;
-    });
+    // Primeiro verifica se esse grupo de inputs ainda não foi alterado. Se algum campo já foi selecionado, ignora
+    if (itemsCheckedByGroup.has(thisGroup)) {
+      return;
+    }
 
     const inputsLength = parseInt($(thisGroup).length, 10);
-    const inputIndex = Math.floor((Math.random() * inputsLength));
+    const inputIndex = random(inputsLength);
+    const selectedValue = $(thisGroup).get(inputIndex).value;
 
-    $(thisGroup).get(inputIndex).checked = true;
+    // Armazena o valor selecionado deste grupo
+    itemsCheckedByGroup.set(thisGroup, selectedValue);
+
+    /**
+     * Marca o campo selecionado com o `checked` executando o click nele (dessa forma podemos ativar qualquer script que
+     * esteja sendo utilizado na página, que esteja monitorando esses campos para poder executar alguma ação)
+     */
     $(`${thisGroup}:eq(${inputIndex})`).trigger('click');
 
     return;
@@ -192,7 +206,7 @@ $(fieldsToValidate.join(',')).each(function () {
 /**
  * Se tivermos algum aviso para exibir, esse é o momento
  */
-if (avisos && avisos.size) {
+if (warnings && warnings.size) {
   const idModal = `fill-form-${Math.random().toString(36).substring(2)}`;
   const monoSpace = 'font-family: monospace';
   const titleOpen = `<span style="display: block; ${monoSpace}; font-size: 22px; color: #c00;">`;
@@ -201,7 +215,7 @@ if (avisos && avisos.size) {
   let count = 0;
   let tableContent = '';
 
-  avisos.forEach(function (mensagens, header) {
+  warnings.forEach(function (mensagens, header) {
     const bgColor = (count % 2 === 0) ? ' background-color: #efefef;' : '';
     const cellOpen = `<td style="${monoSpace}; font-size: 12px; white-space: nowrap; padding: 5px;${bgColor}">`;
     const cellClose = `</td>`;
@@ -244,9 +258,9 @@ if (avisos && avisos.size) {
  * Após executarmos o fill form, a página é "scrollada", então nós focamos o primeiro input do formulário e, logo na
  * sequência, removemos o foco :-)
  */
-if (primeiroInput !== '') {
+if (firstInput !== '') {
   window.setTimeout(function () {
-    $(primeiroInput).trigger('focus').trigger('blur');
+    $(firstInput).trigger('focus').trigger('blur');
   });
 }
 
@@ -260,11 +274,11 @@ if (primeiroInput !== '') {
 function addWarning(input, msg) {
 
   // Se for o primeiro aviso desse campo, cria o índice
-  if (!avisos.has(input)) {
-    avisos.set(input, []);
+  if (!warnings.has(input)) {
+    warnings.set(input, []);
   }
 
-  avisos.get(input).push(msg);
+  warnings.get(input).push(msg);
 }
 
 /**
