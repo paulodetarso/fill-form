@@ -165,10 +165,14 @@ $(fieldsToValidate.join(',')).each(function () {
 
     const inputsLength = parseInt($(thisGroup).length, 10);
     const inputIndex = random(inputsLength);
-    const selectedValue = $(thisGroup).get(inputIndex).value;
+    const selectedInput = $(thisGroup).get(inputIndex);
+
+    if (!selectedInput || typeof selectedInput.value === 'undefined') {
+      return;
+    }
 
     // Armazena o valor selecionado deste grupo
-    itemsCheckedByGroup.set(thisGroup, selectedValue);
+    itemsCheckedByGroup.set(thisGroup, selectedInput.value);
 
     /**
      * Marca o campo selecionado com o `checked` executando o click nele (dessa forma podemos ativar qualquer script que
