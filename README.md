@@ -19,7 +19,7 @@ Com o **Fill Form** também temos a opção para gerar uma página de demonstra�
 $ gulp demo
 $ npm run demo
 ```
-Será gerado um arquivo `dist/fill-form.html` com um formulário HTML e um botão, que contém o código do _bookmarklet_, é só cicar nesse botão e o formulário será preenchido automaticamente!
+Será gerado um arquivo `dist/fill-form.html` com um formulário HTML e um botão, que contém o código do _bookmarklet_, é só clicar nesse botão e o formulário será preenchido automaticamente!
 
 ## Referência
 
