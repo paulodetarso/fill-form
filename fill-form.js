@@ -25,10 +25,11 @@ var fieldsToValidate = [
 
 $(fieldsToValidate.join(',')).each(function () {
 
-  const fieldId = $(this).attr('id');
+  const thisField = $(this);
+  const fieldId   = thisField.attr('id');
   const fieldName = this.name;
   const fieldType = this.type;
-  const tag = this.tagName.toLowerCase();
+  const tag       = this.tagName.toLowerCase();
 
   const isRadioOrCheckbox = (/^(radio|checkbox)$/gi.test(fieldType));
 
@@ -80,7 +81,7 @@ $(fieldsToValidate.join(',')).each(function () {
   }
 
   // Verifica se o maxlength está definido para o campo ou não
-  const maxLengthIsDefined = (!isNaN($(this).attr('maxlength')));
+  const maxLengthIsDefined = (!isNaN(thisField.attr('maxlength')));
 
   // -------------------------------------------------------------------------------------------------------------------
 
@@ -114,9 +115,9 @@ $(fieldsToValidate.join(',')).each(function () {
   } else if (/email/igm.test(fieldName) || fieldType === 'email') {
     value = generateEmail();
   } else if (/numero/igm.test(fieldName) || fieldType === 'number') {
-    value = Math.floor((Math.random() * 999) + 1);
+    value = generateNumero();
   } else if (/(url|site|website)/igm.test(fieldName) || fieldType === 'url') {
-    value = 'http://www.dominio.com.br/';
+    value = generateDominio();
   }
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -131,7 +132,7 @@ $(fieldsToValidate.join(',')).each(function () {
    * Gera uma senha aleatoriamente com base no `maxlength`, se disponível
    */
   if (fieldType === 'password') {
-    value = generatePassword((maxLengthIsDefined) ? $(this).attr('maxlength') : Math.round(Math.random() * 20));
+    value = generatePassword((maxLengthIsDefined) ? thisField.attr('maxlength') : Math.round(Math.random() * 20));
   }
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -141,9 +142,9 @@ $(fieldsToValidate.join(',')).each(function () {
     let tryAgain = true;
 
     while (tryAgain) {
-      const optionsLength = parseInt($(this).find('option').length, 10);
-      const optionIndex = Math.floor((Math.random() * optionsLength));
-      const optionSelected = $(this).find('option').get(optionIndex);
+      const optionsLength  = parseInt(thisField.find('option').length, 10);
+      const optionIndex    = Math.floor((Math.random() * optionsLength));
+      const optionSelected = thisField.find('option').get(optionIndex);
 
       if (optionSelected.value !== '') {
         value = optionSelected.value;
@@ -163,8 +164,8 @@ $(fieldsToValidate.join(',')).each(function () {
       return;
     }
 
-    const inputsLength = parseInt($(thisGroup).length, 10);
-    const inputIndex = random(inputsLength);
+    const inputsLength  = parseInt($(thisGroup).length, 10);
+    const inputIndex    = random(inputsLength);
     const selectedInput = $(thisGroup).get(inputIndex);
 
     if (!selectedInput || typeof selectedInput.value === 'undefined') {
@@ -185,17 +186,22 @@ $(fieldsToValidate.join(',')).each(function () {
 
   // -------------------------------------------------------------------------------------------------------------------
 
-  // Aplica o valor definido no campo
   if (value !== '') {
+
+    // Se o `maxlength` estiver definido, "trunca" o valor
     if (maxLengthIsDefined && typeof value === 'string') {
-      value = value.substr(0, $(this).attr('maxlength'));
+      value = value.substr(0, thisField.attr('maxlength'));
     }
 
-    $(this).val(value);
+    /**
+     * Aplica o valor definido no campo e, na sequência, foca e "desfoca" o campo (caso tenha alguma máscara,
+     * conseguimos aplicá-la no novo valor definido)
+     */
+    thisField
+      .val(value)
+      .trigger('focus')
+      .trigger('blur');
   }
-
-  // Aplica a máscara se o campo estiver alguma
-  $(this).trigger('focusout');
 
   /**
    * Para selects disparamos o evento que "notifica" que houve mudança no campo (para ativar qualquer script que esteja
@@ -203,26 +209,27 @@ $(fieldsToValidate.join(',')).each(function () {
    * disponíveis nesse select)
    */
   if (fieldType === 'select-one') {
-    $(this).trigger('change');
+    thisField.trigger('change');
   }
+
 });
 
 /**
  * Se tivermos algum aviso para exibir, esse é o momento
  */
 if (warnings && warnings.size) {
-  const idModal = `fill-form-${Math.random().toString(36).substring(2)}`;
-  const monoSpace = 'font-family: monospace';
-  const titleOpen = `<span style="display: block; ${monoSpace}; font-size: 22px; color: #c00;">`;
+  const idModal    = `fill-form-${Math.random().toString(36).substring(2)}`;
+  const monoSpace  = 'font-family: monospace';
+  const titleOpen  = `<span style="display: block; ${monoSpace}; font-size: 22px; color: #c00;">`;
   const titleClose = `</span>`;
 
   let count = 0;
   let tableContent = '';
 
   warnings.forEach(function (mensagens, header) {
-    const bgColor = (count % 2 === 0) ? ' background-color: #efefef;' : '';
-    const cellOpen = `<td style="${monoSpace}; font-size: 12px; white-space: nowrap; padding: 5px;${bgColor}">`;
-    const cellClose = `</td>`;
+    const bgColor     = (count % 2 === 0) ? ' background-color: #efefef;' : '';
+    const cellOpen    = `<td style="${monoSpace}; font-size: 12px; white-space: nowrap; padding: 5px;${bgColor}">`;
+    const cellClose   = `</td>`;
     const cellContent = mensagens.join('<br>');
 
     tableContent += `<tr>${cellOpen}${header}${cellClose}${cellOpen}${cellContent}${cellClose}</tr>`;
@@ -315,14 +322,14 @@ function random(max) {
  * @param digitos - Quantidade de dígitos do telefone - 8 para telefone fixo e 9 para celular
  */
 function generateTelefone(digitos) {
-  const base = 9;
-  const num1 = random(base);
-  const num2 = random(base);
-  const num3 = random(base);
-  const num4 = random(base);
-  const num5 = random(base);
 
-  let telefone = '' + num2 + num5 + num4 + num2 + num3 + num3 + num4 + num1;
+  // Cria 5 números randomicamente
+  const n = [];
+  for (let i = 1; i <= 5; i++) {
+    n[i] = random(10);
+  }
+
+  let telefone = `${n[2]}${n[5]}${n[4]}${n[2]}${n[3]}${n[1]}${n[4]}${n[1]}`;
 
   // Só adiciona o DDD se o campo DDD não existir
   if (!$('input[name*="ddd"]').length) {
@@ -338,9 +345,9 @@ function generateTelefone(digitos) {
  * 28032020 (28/03/2020)
  */
 function generateData() {
-  const dias = [];
+  const dias  = [];
   const meses = [];
-  const anos = [];
+  const anos  = [];
 
   for (let d = 1; d <= 31; d++) {
     dias.push(d);
@@ -354,8 +361,9 @@ function generateData() {
     anos.push(a);
   }
 
-  let dia = dias[Math.floor((Math.random() * dias.length) - 1)];
-  let mes = meses[Math.floor((Math.random() * meses.length) - 1)];
+  let dia   = dias[Math.floor((Math.random() * dias.length) - 1)];
+  let mes   = meses[Math.floor((Math.random() * meses.length) - 1)];
+
   const ano = anos[Math.floor((Math.random() * anos.length) - 1)];
 
   if (dia >= 1 && dia <= 9) {
@@ -533,6 +541,7 @@ function generateDdd() {
  */
 function generateEmail() {
   let email = '';
+
   const chars = 'abcdefghijkmnpqrstuvwxyz23456789';
   const TLDs = ['.com.br', '.info', '.org', '.net', '.com']; // Top-Level Domains :-)
 
@@ -547,6 +556,32 @@ function generateEmail() {
   }
 
   return email += TLDs[Math.round(Math.random() * TLDs.length)];
+}
+
+/**
+ * Gera um domínio randomicamente utilizando apenas as letras e números definidos na lista
+ */
+function generateDominio() {
+  let dominio = '';
+
+  const chars = 'abcdefghijkmnpqrstuvwxyz23456789';
+  const protocols = ['http://www.', 'https://www.', 'ftp://'];
+  const TLDs = ['.com.br', '.info', '.org', '.net', '.com']; // Top-Level Domains :-)
+
+  dominio += protocols[Math.round(Math.random() * protocols.length)];
+
+  for (let i = 0; i < 10; i++) {
+    dominio += chars.charAt(Math.round(chars.length * Math.random()));
+  }
+
+  return dominio += TLDs[Math.round(Math.random() * TLDs.length)];
+}
+
+/**
+ * Gera um número aleatório entre 1 e 999
+ */
+function generateNumero() {
+  return Math.floor((Math.random() * 999) + 1);
 }
 
 /**
