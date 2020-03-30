@@ -808,6 +808,55 @@ Consectetur aliqua quis duis anim amet ullamco.</textarea>
     </div>
   </section>
 
+  <section class="card">
+    <h3>Máscara de CEP</h3>
+
+    <div class="row">
+      <div class="col">
+        <h4> Não preenchido </h4>
+        <input
+          type="text"
+          name="input-cep"
+          id="input-cep"
+          maxlength="9"
+        >
+      </div>
+
+      <div class="col">
+        <h4> Preenchido: <code>value="20511330"</code> </h4>
+        <input
+          type="text"
+          name="input-cep-preenchido"
+          id="input-cep-preenchido"
+          maxlength="9"
+          value="20511330"
+        >
+      </div>
+
+      <div class="col">
+        <h4> 'disabled' </h4>
+        <input
+          type="text"
+          name="input-cep-disabled"
+          id="input-cep-disabled"
+          maxlength="9"
+          disabled
+        >
+      </div>
+
+      <div class="col">
+        <h4> 'readonly' </h4>
+        <input
+          type="text"
+          name="input-cep-readonly"
+          id="input-cep-readonly"
+          maxlength="9"
+          readonly
+        >
+      </div>
+    </div>
+  </section>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="jquery.maskedinput.min.js"></script>
   <script>
