@@ -12,152 +12,7 @@
     content="ie=edge"
   >
   <title>Fill Form</title>
-  <style>
-    * {
-      font-family: Consolas, 'Lucida Console', 'Courier New', monospace;
-      box-sizing: border-box;
-    }
-
-    html {
-      font-size: 18px;
-    }
-
-    body {
-      padding: 0.9rem 0.9rem 3rem;
-      margin: 0;
-      font-size: 100%;
-      background-color: #fcfcfc;
-    }
-
-    h1 {
-      margin: 0 0 1rem;
-      font-size: 160%;
-    }
-
-    code,
-    .is-code {
-      color: #048500;
-      font-size: 90%;
-      white-space: pre-line;
-      background-color: #e7e7e7;
-      border-radius: 5px;
-    }
-
-    code {
-      padding-right: 0.5em;
-      padding-left: 0.5em;
-    }
-
-    .is-code {
-      padding: 0 1.2em 1.2em;
-      margin-bottom: 2rem;
-      line-height: 1.2em;
-      box-shadow: 0 0 0 1px #ccc inset;
-    }
-
-    .card {
-      padding: 0.9rem;
-      border-radius: 5px;
-      box-shadow: 0 1px 3px rgba(80, 80, 80, 0.2);
-    }
-
-    .card+.card,
-    .box {
-      margin-top: 2rem;
-    }
-
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      margin-right: -0.9rem;
-      margin-left: -0.9rem;
-    }
-
-    .col,
-    .col-6 {
-      flex-basis: 0;
-      flex-grow: 1;
-      max-width: 100%;
-      padding-right: 0.9rem;
-      padding-left: 0.9rem;
-    }
-
-    h3 {
-      padding: 5px 0.9rem;
-      margin: -0.9rem -0.9rem 10px;
-      color: #134ef1;
-      font-size: 140%;
-      border-bottom: 1px solid #dfdfdf;
-      border-top-right-radius: 5px;
-      border-top-left-radius: 5px;
-    }
-
-    h4 {
-      margin: 0 0 5px;
-      color: #666;
-      font-size: 80%;
-      font-weight: normal;
-    }
-
-    [type="text"],
-    [type="password"],
-    [type="url"],
-    [type="email"],
-    [type="tel"],
-    [type="number"],
-    select,
-    textarea {
-      display: inline-block;
-      width: 100%;
-      padding: 5px;
-    }
-
-    .input-wrapper {
-      display: flex;
-      align-items: center;
-      padding: 5px;
-      background-color: #fcfcfc;
-      box-shadow: 0 0 0 1px rgba(80, 80, 80, 0.1);
-    }
-
-    .input-wrapper:hover {
-      background-color: #eef2ff;
-    }
-
-    .input-wrapper+.input-wrapper {
-      margin-top: 5px;
-    }
-
-    label {
-      display: block;
-      width: 100%;
-      margin-left: 5px;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    em {
-      display: inline-block;
-      color: #999;
-    }
-
-    .fill-form {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      opacity: 0.4;
-      padding: 10px 15px;
-      color: #fff;
-      text-decoration: none;
-      background-color: #50dcf3;
-      border-radius: 5em;
-      box-shadow: 0 2px 3px rgba(80, 80, 80, 0.4);
-    }
-
-    .fill-form:hover {
-      opacity: 1;
-    }
-  </style>
+  <link rel="stylesheet" href="fill-form.css">
 </head>
 
 <body>
@@ -236,7 +91,6 @@
           type="text"
           name="input-text-preenchido"
           id="input-text-preenchido"
-          class="has-value"
           value="Campo preenchido"
           maxlength="50"
         >
@@ -286,7 +140,6 @@
           type="password"
           name="input-password-preenchido"
           id="input-password-preenchido"
-          class="has-value"
           value="Senha preenchida"
           maxlength="30"
         >
@@ -337,7 +190,6 @@
           type="url"
           name="input-url-preenchido"
           id="input-url-preenchido"
-          class="has-value"
           value="http://www.site.com"
           maxlength="100"
         >
@@ -388,7 +240,6 @@
           type="email"
           name="input-email-preenchido"
           id="input-email-preenchido"
-          class="has-value"
           value="email@dominio.com"
           maxlength="100"
         >
@@ -439,7 +290,6 @@
           type="tel"
           name="input-tel-preenchido"
           id="input-tel-preenchido"
-          class="has-value"
           value="11987654321"
           maxlength="20"
         >
@@ -491,7 +341,6 @@
           type="number"
           name="input-number-preenchido"
           id="input-number-preenchido"
-          class="has-value"
           value="400"
           min="1"
           max="500"
@@ -539,7 +388,7 @@
       </div>
 
       <div class="col">
-        <h4> Preenchido: <code>value="Campo preenchido"</code> </h4>
+        <h4> Preenchido </h4>
         <em>(não aplicável)</em>
       </div>
 
@@ -809,6 +658,166 @@ Consectetur aliqua quis duis anim amet ullamco.</textarea>
       </div>
     </div>
   </div>
+
+  <h2>Campos com máscara</h2>
+
+  <section class="card">
+    <h3>Máscara de CPF</h3>
+
+    <div class="row">
+      <div class="col">
+        <h4> Não preenchido </h4>
+        <input
+          type="text"
+          name="input-cpf"
+          id="input-cpf"
+          maxlength="14"
+        >
+      </div>
+
+      <div class="col">
+        <h4> Preenchido: <code>value="12345678909"</code> </h4>
+        <input
+          type="text"
+          name="input-cpf-preenchido"
+          id="input-cpf-preenchido"
+          maxlength="14"
+          value="12345678909"
+        >
+      </div>
+
+      <div class="col">
+        <h4> 'disabled' </h4>
+        <input
+          type="text"
+          name="input-cpf-disabled"
+          id="input-cpf-disabled"
+          maxlength="14"
+          disabled
+        >
+      </div>
+
+      <div class="col">
+        <h4> 'readonly' </h4>
+        <input
+          type="text"
+          name="input-cpf-readonly"
+          id="input-cpf-readonly"
+          maxlength="14"
+          readonly
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>Máscara de CNPJ</h3>
+
+    <div class="row">
+      <div class="col">
+        <h4> Não preenchido </h4>
+        <input
+          type="text"
+          name="input-cnpj"
+          id="input-cnpj"
+          maxlength="18"
+        >
+      </div>
+
+      <div class="col">
+        <h4> Preenchido: <code>value="10085104000108"</code> </h4>
+        <input
+          type="text"
+          name="input-cnpj-preenchido"
+          id="input-cnpj-preenchido"
+          maxlength="18"
+          value="10085104000108"
+        >
+      </div>
+
+      <div class="col">
+        <h4> 'disabled' </h4>
+        <input
+          type="text"
+          name="input-cnpj-disabled"
+          id="input-cnpj-disabled"
+          maxlength="18"
+          disabled
+        >
+      </div>
+
+      <div class="col">
+        <h4> 'readonly' </h4>
+        <input
+          type="text"
+          name="input-cnpj-readonly"
+          id="input-cnpj-readonly"
+          maxlength="18"
+          readonly
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>Máscara de celular</h3>
+
+    <div class="row">
+      <div class="col">
+        <h4> Não preenchido </h4>
+        <input
+          type="tel"
+          name="input-celular"
+          id="input-celular"
+          maxlength="15"
+        >
+      </div>
+
+      <div class="col">
+        <h4> Preenchido: <code>value="11998765432"</code> </h4>
+        <input
+          type="tel"
+          name="input-celular-preenchido"
+          id="input-celular-preenchido"
+          maxlength="15"
+          value="11998765432"
+        >
+      </div>
+
+      <div class="col">
+        <h4> 'disabled' </h4>
+        <input
+          type="tel"
+          name="input-celular-disabled"
+          id="input-celular-disabled"
+          maxlength="15"
+          disabled
+        >
+      </div>
+
+      <div class="col">
+        <h4> 'readonly' </h4>
+        <input
+          type="tel"
+          name="input-celular-readonly"
+          id="input-celular-readonly"
+          maxlength="15"
+          readonly
+        >
+      </div>
+    </div>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="jquery.maskedinput.min.js"></script>
+  <script>
+    jQuery(function($) {
+      $('[name*="cep"]').mask('99999-999');
+      $('[name*="cpf"]').mask('999.999.999-99');
+      $('[name*="cnpj"]').mask('99.999.999/9999-99');
+      $('[name*="celular"]').mask('(99) 99999-9999');
+    });
+  </script>
 
 </body>
 

@@ -1,0 +1,144 @@
+* {
+  font-family: Consolas, 'Lucida Console', 'Courier New', monospace;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 18px;
+}
+
+body {
+  padding: 0.9rem 0.9rem 3rem;
+  margin: 0;
+  font-size: 100%;
+  background-color: #fcfcfc;
+}
+
+h1 {
+  margin: 0 0 1rem;
+  font-size: 160%;
+}
+
+code,
+.is-code {
+  color: #048500;
+  font-size: 90%;
+  white-space: pre-line;
+  background-color: #e7e7e7;
+  border-radius: 5px;
+}
+
+code {
+  padding-right: 0.5em;
+  padding-left: 0.5em;
+}
+
+.is-code {
+  padding: 0 1.2em 1.2em;
+  margin-bottom: 2rem;
+  line-height: 1.2em;
+  box-shadow: 0 0 0 1px #ccc inset;
+}
+
+.card {
+  padding: 0.9rem;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(80, 80, 80, 0.2);
+}
+
+.card+.card,
+.box {
+  margin-top: 2rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.9rem;
+  margin-left: -0.9rem;
+}
+
+.col,
+.col-6 {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+  padding-right: 0.9rem;
+  padding-left: 0.9rem;
+}
+
+h3 {
+  padding: 5px 0.9rem;
+  margin: -0.9rem -0.9rem 10px;
+  color: #134ef1;
+  font-size: 140%;
+  border-bottom: 1px solid #dfdfdf;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+h4 {
+  margin: 0 0 5px;
+  color: #666;
+  font-size: 80%;
+  font-weight: normal;
+}
+
+[type="text"],
+[type="password"],
+[type="url"],
+[type="email"],
+[type="tel"],
+[type="number"],
+select,
+textarea {
+  display: inline-block;
+  width: 100%;
+  padding: 5px;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  background-color: #fcfcfc;
+  box-shadow: 0 0 0 1px rgba(80, 80, 80, 0.1);
+}
+
+.input-wrapper:hover {
+  background-color: #eef2ff;
+}
+
+.input-wrapper+.input-wrapper {
+  margin-top: 5px;
+}
+
+label {
+  display: block;
+  width: 100%;
+  margin-left: 5px;
+  cursor: pointer;
+  user-select: none;
+}
+
+em {
+  display: inline-block;
+  color: #999;
+}
+
+.fill-form {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  opacity: 0.4;
+  padding: 10px 15px;
+  color: #fff;
+  text-decoration: none;
+  background-color: #50dcf3;
+  border-radius: 5em;
+  box-shadow: 0 2px 3px rgba(80, 80, 80, 0.4);
+}
+
+.fill-form:hover {
+  opacity: 1;
+}

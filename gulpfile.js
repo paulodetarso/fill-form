@@ -14,13 +14,27 @@ const tap = require('gulp-tap');
 // Diretório de publicação dos arquivos
 const dirs = {
   src: '.',
+  demo: 'demo',
   dist: 'dist',
+};
+
+const sources = {
+  demo: dirs.demo + '/*.*'
 };
 
 // Nome do arquivo gerado com o código do bookmarklet
 const fileName = 'fill-form';
 
 // ---------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Copia os arquivos da demonstração (JS, CSS) para o diretório de publicação
+ */
+function demoFilesTask() {
+  return gulp
+    .src(sources.demo)
+    .pipe(gulp.dest(dirs.dist));
+}
 
 /**
  * Executa a criação do bookmarklet utilizando o arquivo minificado criado anteriormente
@@ -33,7 +47,7 @@ function bookmarkletTask() {
  * Executa a criação do demo do bookmarklet
  */
 function bookmarkletDemoTask() {
-  return gulp.src(`${dirs.src}/${fileName}.html`)
+  return gulp.src(`${dirs.demo}/${fileName}.html`)
     .pipe(tap(replaceVariables))
     .pipe(gulp.dest(dirs.dist));
 }
@@ -77,6 +91,9 @@ const gulpBuild = gulp.series(
 const gulpDemo = gulp.series(
   cleanDistTask,
   createDistTask,
+  gulp.parallel(
+    demoFilesTask
+  ),
   gulp.parallel(
     bookmarkletTask,
   ),
