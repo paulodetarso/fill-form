@@ -4,7 +4,7 @@
   "description": "Fill Form: Bookmarklet para preenchimento de formulários com dados fictícios, utilizando Lorem Ipsum",
   "repository": {
     "type": "git",
-    "url": "git+https://bitbucket.org/paulodetarsofm/fill-form.git"
+    "url": "git+https://github.com/paulodetarso/fill-form.git"
   },
   "author": "Paulo de Tarso Furtado Machado",
   "license": "ISC",
