@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <title>Fill Form</title>
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -11,8 +12,10 @@
     http-equiv="X-UA-Compatible"
     content="ie=edge"
   >
-  <title>Fill Form</title>
-  <link rel="stylesheet" href="fill-form.css">
+  <link
+    rel="stylesheet"
+    href="fill-form.css"
+  >
 </head>
 
 <body>
@@ -72,7 +75,7 @@
   </p>
 
   <section class="card">
-    <h3>&lt;input type="text"&gt;</h3>
+    <h3>&lt;input type="text" maxlength="50"&gt;</h3>
 
     <div class="row">
       <div class="col">
@@ -121,7 +124,7 @@
   </section>
 
   <section class="card">
-    <h3>&lt;input type="password"&gt;</h3>
+    <h3>&lt;input type="password" maxlength="30"&gt;</h3>
 
     <div class="row">
       <div class="col">
@@ -171,7 +174,7 @@
   </section>
 
   <section class="card">
-    <h3>&lt;input type="url"&gt;</h3>
+    <h3>&lt;input type="url" maxlength="100"&gt;</h3>
 
     <div class="row">
       <div class="col">
@@ -221,7 +224,7 @@
   </section>
 
   <section class="card">
-    <h3>&lt;input type="email"&gt;</h3>
+    <h3>&lt;input type="email" maxlength="100"&gt;</h3>
 
     <div class="row">
       <div class="col">
@@ -271,7 +274,7 @@
   </section>
 
   <section class="card">
-    <h3>&lt;input type="tel"&gt;</h3>
+    <h3>&lt;input type="tel" maxlength="20"&gt;</h3>
 
     <div class="row">
       <div class="col">
@@ -321,7 +324,7 @@
   </section>
 
   <section class="card">
-    <h3>&lt;input type="number"&gt;</h3>
+    <h3>&lt;input type="number" min="1" max="999"&gt;</h3>
 
     <div class="row">
       <div class="col">
@@ -331,7 +334,7 @@
           name="input-number"
           id="input-number"
           min="1"
-          max="500"
+          max="999"
         >
       </div>
 
@@ -343,7 +346,7 @@
           id="input-number-preenchido"
           value="400"
           min="1"
-          max="500"
+          max="999"
         >
       </div>
 
@@ -354,7 +357,7 @@
           name="input-number-disabled"
           id="input-number-disabled"
           min="1"
-          max="500"
+          max="999"
           disabled
         >
       </div>
@@ -366,7 +369,7 @@
           name="input-number-readonly"
           id="input-number-readonly"
           min="1"
-          max="500"
+          max="999"
           readonly
         >
       </div>
@@ -662,7 +665,7 @@ Consectetur aliqua quis duis anim amet ullamco.</textarea>
   <h2>Campos com máscara</h2>
 
   <section class="card">
-    <h3>Máscara de CPF</h3>
+    <h3>Máscara de CPF - &lt;input type="text" maxlength="14"&gt;</h3>
 
     <div class="row">
       <div class="col">
@@ -711,7 +714,7 @@ Consectetur aliqua quis duis anim amet ullamco.</textarea>
   </section>
 
   <section class="card">
-    <h3>Máscara de CNPJ</h3>
+    <h3>Máscara de CNPJ - &lt;input type="text" maxlength="18"&gt;</h3>
 
     <div class="row">
       <div class="col">
@@ -760,7 +763,7 @@ Consectetur aliqua quis duis anim amet ullamco.</textarea>
   </section>
 
   <section class="card">
-    <h3>Máscara de celular</h3>
+    <h3>Máscara de celular - &lt;input type="tel" maxlength="15"&gt;</h3>
 
     <div class="row">
       <div class="col">
@@ -809,7 +812,7 @@ Consectetur aliqua quis duis anim amet ullamco.</textarea>
   </section>
 
   <section class="card">
-    <h3>Máscara de CEP</h3>
+    <h3>Máscara de CEP - &lt;input type="text" maxlength="9"&gt;</h3>
 
     <div class="row">
       <div class="col">
@@ -857,7 +860,7 @@ Consectetur aliqua quis duis anim amet ullamco.</textarea>
     </div>
   </section>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="jquery.min.js"></script>
   <script src="jquery.maskedinput.min.js"></script>
   <script>
     jQuery(function($) {

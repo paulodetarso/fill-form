@@ -1,16 +1,13 @@
-// ==Bookmarklet==
-// @script https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
-// ==/Bookmarklet==
+const warnings = new Map();
+const itemsCheckedByGroup = new Map();
 
-var warnings = new Map();
-var firstInput = '';
-var itemsCheckedByGroup = new Map();
+let firstInput = '';
 
 /**
  * Validamos apenas os campos listados (não são todos os tipos de input que validamos como, por exemplo, `hidden` ou
  * `button`). Essa mesma lista é usada no arquivo de demonstração
  */
-var fieldsToValidate = [
+const fieldsToValidate = [
   '[type="text"]',
   '[type="password"]',
   '[type="url"]',
@@ -23,13 +20,11 @@ var fieldsToValidate = [
   'textarea',
 ];
 
-$(fieldsToValidate.join(',')).each(function () {
-
-  const thisField = $(this);
-  const fieldId   = thisField.attr('id');
-  const fieldName = this.name;
-  const fieldType = this.type;
-  const tag       = this.tagName.toLowerCase();
+document.querySelectorAll(fieldsToValidate.join(',')).forEach(function (thisField) {
+  const fieldId   = thisField.id;
+  const fieldName = thisField.name;
+  const fieldType = thisField.type;
+  const tag       = thisField.tagName.toLowerCase();
 
   const isRadioOrCheckbox = (/^(radio|checkbox)$/gi.test(fieldType));
 
@@ -42,10 +37,10 @@ $(fieldsToValidate.join(',')).each(function () {
    * 4) O campo já está preenchido
    */
   if (
-    this.offsetWidth === 0 || this.offsetHeight === 0 || this.style.display === 'none' ||
-    this.disabled || this.readOnly || (
-      (isRadioOrCheckbox && this.checked) || // Se for radio ou checkbox e estiver checked
-      (!isRadioOrCheckbox && this.value !== '') // Se NÃO for radio ou checkbox e o value estiver definido
+    thisField.offsetWidth === 0 || thisField.offsetHeight === 0 || thisField.style.display === 'none' ||
+    thisField.disabled || thisField.readOnly || (
+      (isRadioOrCheckbox && thisField.checked) ||     // Se for radio ou checkbox e estiver checked
+      (!isRadioOrCheckbox && thisField.value !== '')  // Se NÃO for radio ou checkbox e o value estiver definido
     )
   ) {
     return;
@@ -81,7 +76,7 @@ $(fieldsToValidate.join(',')).each(function () {
   }
 
   // Verifica se o maxlength está definido para o campo ou não
-  const maxLengthIsDefined = (!isNaN(thisField.attr('maxlength')));
+  const maxLengthIsDefined = (!isNaN(thisField.maxLength) && thisField.maxLength > 0);
 
   // -------------------------------------------------------------------------------------------------------------------
 
@@ -94,36 +89,39 @@ $(fieldsToValidate.join(',')).each(function () {
 
   // -------------------------------------------------------------------------------------------------------------------
 
-  let value = generateText();
-
-  if (/^rg/igm.test(fieldName)) {
-    value = geneateRg();
-  } else if (/cpf/igm.test(fieldName)) {
-    value = generateCpf();
-  } else if (/cnpj/igm.test(fieldName)) {
-    value = generateCnpj();
-  } else if (/cep/igm.test(fieldName)) {
-    value = generateCep();
-  } else if (/ddd/igm.test(fieldName)) {
-    value = generateDdd(true);
-  } else if (/cel/igm.test(fieldName) || fieldType === 'tel') {
-    value = generateTelefone(9);
-  } else if (/(tel|fax)/igm.test(fieldName) || fieldType === 'tel') {
-    value = generateTelefone(8);
-  } else if (/data/igm.test(fieldName) && fieldType === 'text') {
-    value = generateData();
-  } else if (/email/igm.test(fieldName) || fieldType === 'email') {
-    value = generateEmail();
-  } else if (/numero/igm.test(fieldName) || fieldType === 'number') {
-    value = generateNumero();
-  } else if (/(url|site|website)/igm.test(fieldName) || fieldType === 'url') {
-    value = generateDominio();
-  }
+  let value = (() => {
+    switch (true) {
+      case (/^rg/igm.test(fieldName)):
+        return gerarRg();
+      case (/cpf/igm.test(fieldName)):
+        return gerarCpf();
+      case (/cnpj/igm.test(fieldName)):
+        return gerarCnpj();
+      case (/cep/igm.test(fieldName)):
+        return gerarCep();
+      case (/ddd/igm.test(fieldName)):
+        return gerarDdd();
+      case (/cel/igm.test(fieldName) || fieldType === 'tel'):
+        return gerarTelefone(9);
+      case (/(tel|fax)/igm.test(fieldName) || fieldType === 'tel'):
+        return gerarTelefone(8);
+      case (/data/igm.test(fieldName) && fieldType === 'text'):
+        return gerarData();
+      case (/email/igm.test(fieldName) || fieldType === 'email'):
+        return gerarEmail();
+      case (/numero/igm.test(fieldName) || fieldType === 'number'):
+        return gerarNumero();
+      case (/(url|site|website)/igm.test(fieldName) || fieldType === 'url'):
+        return gerarDominio();
+      default:
+        return gerarTexto();
+    }
+  })();
 
   // -------------------------------------------------------------------------------------------------------------------
 
   if (tag === 'textarea') {
-    value = generateText(true);
+    value = gerarTexto(true);
   }
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -132,19 +130,19 @@ $(fieldsToValidate.join(',')).each(function () {
    * Gera uma senha aleatoriamente com base no `maxlength`, se disponível
    */
   if (fieldType === 'password') {
-    value = generatePassword((maxLengthIsDefined) ? thisField.attr('maxlength') : Math.round(Math.random() * 20));
+    value = gerarSenha((maxLengthIsDefined) ? thisField.maxLength : random(20));
   }
 
   // -------------------------------------------------------------------------------------------------------------------
 
   // Se for um select, seleciona uma das opções disponíveis aleatoriamente
-  if (fieldType === 'select-one') {
+  if (tag === 'select' && fieldType === 'select-one') {
     let tryAgain = true;
 
     while (tryAgain) {
-      const optionsLength  = parseInt(thisField.find('option').length, 10);
-      const optionIndex    = Math.floor((Math.random() * optionsLength));
-      const optionSelected = thisField.find('option').get(optionIndex);
+      const optionsLength  = thisField.options.length;
+      const optionIndex    = random(optionsLength - 1);
+      const optionSelected = thisField.options[optionIndex];
 
       if (optionSelected.value !== '') {
         value = optionSelected.value;
@@ -164,9 +162,10 @@ $(fieldsToValidate.join(',')).each(function () {
       return;
     }
 
-    const inputsLength  = parseInt($(thisGroup).length, 10);
+    const inputs        = document.querySelectorAll(thisGroup);
+    const inputsLength  = inputs.length;
     const inputIndex    = random(inputsLength);
-    const selectedInput = $(thisGroup).get(inputIndex);
+    const selectedInput = inputs[inputIndex];
 
     if (!selectedInput || typeof selectedInput.value === 'undefined') {
       return;
@@ -179,7 +178,7 @@ $(fieldsToValidate.join(',')).each(function () {
      * Marca o campo selecionado com o `checked` executando o click nele (dessa forma podemos ativar qualquer script que
      * esteja sendo utilizado na página, que esteja monitorando esses campos para poder executar alguma ação)
      */
-    $(`${thisGroup}:eq(${inputIndex})`).trigger('click');
+    selectedInput.click();
 
     return;
   }
@@ -190,17 +189,24 @@ $(fieldsToValidate.join(',')).each(function () {
 
     // Se o `maxlength` estiver definido, "trunca" o valor
     if (maxLengthIsDefined && typeof value === 'string') {
-      value = value.substr(0, thisField.attr('maxlength'));
+      value = value.substring(0, thisField.maxLength);
     }
 
     /**
-     * Aplica o valor definido no campo e, na sequência, foca e "desfoca" o campo (caso tenha alguma máscara,
-     * conseguimos aplicá-la no novo valor definido)
+     * Aplica o valor definido no campo e, na sequência, disparamos o evento que indica que houve alterações no campo
+     * (caso tenha alguma máscara, conseguimos aplicá-la no novo valor definido)
      */
-    thisField
-      .val(value)
-      .trigger('focus')
-      .trigger('blur');
+    thisField.value = value;
+    thisField.dispatchEvent(new Event('input'));
+
+    // Exibimos o valor no "title" dos campos
+    let prevTitle = '';
+
+    if (thisField.title !== '') {
+      prevTitle = `${thisField.title} - `;
+    }
+
+    thisField.title = `${prevTitle}Value: ${value}`;
   }
 
   /**
@@ -208,10 +214,9 @@ $(fieldsToValidate.join(',')).each(function () {
    * associado a esse campo, como por exemplo, exibir algum campo condicionalmente à escolha de algum dos valores
    * disponíveis nesse select)
    */
-  if (fieldType === 'select-one') {
-    thisField.trigger('change');
+  if (tag === 'select' && fieldType === 'select-one') {
+    thisField.dispatchEvent(new Event('change'));
   }
-
 });
 
 /**
@@ -237,32 +242,30 @@ if (warnings && warnings.size) {
     count++;
   });
 
-  const mensagem = `
+  const mensagem = [
+    `<div id="${idModal}-modal" style="`,
+      'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); min-width: 800px; padding: 10px;',
+      'color: #333; font-size: 14px; background-color: #fcfcfc; border: 5px solid #c00; z-index: 999999999;"',
+    '>',
+      `${titleOpen}Avisos:${titleClose}`,
+      `<table style="width: 100%; margin-top: 10px; border: 1px solid #dfdfdf;">${tableContent}</table>`,
+    '</div>',
 
-    <div
-      style="
-        position: fixed; top: 20px; left: 50%; transform: translateX(-50%); min-width: 800px; padding: 10px;
-        color: #333; font-size: 14px; background-color: #fcfcfc; border: 5px solid #c00; z-index: 999999999;"
-      id="${idModal}-modal"
-    >
-      ${titleOpen}Avisos:${titleClose}
-      <table style="width: 100%; margin-top: 10px; border: 1px solid #dfdfdf;">
-        ${tableContent}
-      </table>
-    </div>
+    `<div id="${idModal}-overlay" `,
 
-    <div
-      style="
-        position: fixed; top: 0; right: 0; bottom: 0; left: 0; width: 500vw; height: 500vh;
-        background-color: #333; opacity: 0.75; z-index: 999999998; cursor: pointer;"
-      id="${idModal}-overlay"
-      onclick="javascript:
-        document.getElementById('${idModal}-modal').style.display = 'none';
-        document.getElementById('${idModal}-overlay').style.display = 'none';"
-      "
-    ></div>`;
+      'style="',
+        'position: fixed; top: 0; right: 0; bottom: 0; left: 0; width: 500vw; height: 500vh;',
+        'background-color: #333; opacity: 0.75; z-index: 999999998; cursor: pointer;',
+      '" ',
 
-  $('body').prepend(mensagem);
+      'onclick="javascript:',
+        `document.getElementById('${idModal}-modal').remove();`,
+        `document.getElementById('${idModal}-overlay').remove();"`,
+      '"',
+    '></div>'
+  ];
+
+  document.body.insertAdjacentHTML('afterbegin', mensagem.join(''));
 }
 
 /**
@@ -270,8 +273,11 @@ if (warnings && warnings.size) {
  * sequência, removemos o foco :-)
  */
 if (firstInput !== '') {
-  window.setTimeout(function () {
-    $(firstInput).trigger('focus').trigger('blur');
+  setTimeout(function () {
+    const field = document.querySelector(firstInput);
+
+    field.focus();
+    field.blur();
   });
 }
 
@@ -313,6 +319,13 @@ function random(max) {
 }
 
 /**
+ * Retirna a lista dos "Top Level Domains" que utilizamos
+ */
+function getTopLevelDomains() {
+  return ['.com.br', '.info', '.org', '.net', '.com'];
+}
+
+/**
  * Gera um número de telefone/celular aleatoriamente, com 8 ou 9 dígitos. Se não existir um campo com `ddd` no `name`,
  * adiciona o DDD também
  *
@@ -321,7 +334,7 @@ function random(max) {
  *
  * @param digitos - Quantidade de dígitos do telefone - 8 para telefone fixo e 9 para celular
  */
-function generateTelefone(digitos) {
+function gerarTelefone(digitos) {
 
   // Cria 5 números randomicamente
   const n = [];
@@ -332,8 +345,8 @@ function generateTelefone(digitos) {
   let telefone = `${n[2]}${n[5]}${n[4]}${n[2]}${n[3]}${n[1]}${n[4]}${n[1]}`;
 
   // Só adiciona o DDD se o campo DDD não existir
-  if (!$('input[name*="ddd"]').length) {
-    telefone = generateDdd() + (digitos === 9 ? '9' : '') + telefone;
+  if (!document.querySelector('input[name*="ddd"]')) {
+    telefone = gerarDdd() + (digitos === 9 ? '9' : '') + telefone;
   }
 
   return telefone;
@@ -344,35 +357,10 @@ function generateTelefone(digitos) {
  *
  * 28032020 (28/03/2020)
  */
-function generateData() {
-  const dias  = [];
-  const meses = [];
-  const anos  = [];
-
-  for (let d = 1; d <= 31; d++) {
-    dias.push(d);
-  }
-
-  for (let m = 1; m <= 12; m++) {
-    meses.push(m);
-  }
-
-  for (let a = 1900; a <= 2050; a++) {
-    anos.push(a);
-  }
-
-  let dia   = dias[Math.floor((Math.random() * dias.length) - 1)];
-  let mes   = meses[Math.floor((Math.random() * meses.length) - 1)];
-
-  const ano = anos[Math.floor((Math.random() * anos.length) - 1)];
-
-  if (dia >= 1 && dia <= 9) {
-    dia = '0' + dia;
-  }
-
-  if (mes >= 1 && mes <= 9) {
-    mes = '0' + mes;
-  }
+function gerarData() {
+  const ano = random(new Date().getFullYear() - 1900) + 1900;
+  const mes = random(11) + 1;
+  const dia = random(29) + 1;
 
   return `${dia}${mes}${ano}`;
 }
@@ -380,7 +368,7 @@ function generateData() {
 /**
  * Gera um número de CPF válido, sem máscara
  */
-function generateCpf() {
+function gerarCpf() {
   let dig1 = 0;
   let dig2 = 0;
 
@@ -425,7 +413,7 @@ function generateCpf() {
 /**
  * Gera um número de CNPJ válido, sem máscara
  */
-function generateCnpj() {
+function gerarCnpj() {
   let dig1 = 0;
   let dig2 = 0;
 
@@ -442,7 +430,7 @@ function generateCnpj() {
   // Cálculo do primeiro dígito verificador
   dig1 = (
     (n[12] * 2) + (n[11] * 3) + (n[10] * 4) + (n[9] * 5) + (n[8] * 6) + (n[7] * 7) +
-    (n[6] * 8) + (n[5] * 9) + (n[4] * 2) + (n[3] * 3) + (n[2] * 4) + (n[1] * 5)
+    (n[6] * 8)  + (n[5] * 9)  + (n[4] * 2)  + (n[3] * 3) + (n[2] * 4) + (n[1] * 5)
   );
 
   dig1 = 11 - (digitoVerificador(dig1, 11));
@@ -454,7 +442,7 @@ function generateCnpj() {
   // Cálculo do segundo dígito verificador
   dig2 = (
     (dig1 * 2) + (n[12] * 3) + (n[11] * 4) + (n[10] * 5) + (n[9] * 6) + (n[8] * 7) + (n[7] * 8) +
-    (n[6] * 9) + (n[5] * 2) + (n[4] * 3) + (n[3] * 4) + (n[2] * 5) + (n[1] * 6)
+    (n[6] * 9) + (n[5] * 2)  + (n[4] * 3)  + (n[3] * 4)  + (n[2] * 5) + (n[1] * 6)
   );
 
   dig2 = 11 - (digitoVerificador(dig2, 11));
@@ -469,20 +457,20 @@ function generateCnpj() {
 /**
  * Retorna um número de CEP disponível válido, sem máscara
  */
-function generateCep() {
+function gerarCep() {
   const ceps = [
     '13092-150', '13500-000', '13500-110', '13500-313', '13506-555', '13537-000',
     '20260-160', '20511-170', '20511-330', '20521-110', '20530-350', '78931-000',
     '78956-000', '78967-800', '78968-000', '78973-000', '78990-000', '78993-000',
   ];
 
-  return ceps[random(ceps.length)].replace(/[^0-9]/, '');
+  return ceps[random(ceps.length - 1)].replace(/[^0-9]/, '');
 }
 
 /**
  * Retorna um número de RG disponível
  */
-function geneateRg() {
+function gerarRg() {
   const rgs = [
     '42.943.412-1', '91.122.534-1', '4.032.894-40',
     '41.875.789-6', '2.977.269'
@@ -496,7 +484,7 @@ function geneateRg() {
  *
  * @param length - Tamanho da senha
  */
-function generatePassword(length) {
+function gerarSenha(length) {
   let password = '';
   const chars = [
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
@@ -511,7 +499,7 @@ function generatePassword(length) {
   ];
 
   for (let idx = 0; idx < length; idx++) {
-    password += chars[Math.floor(Math.random() * chars.length)];
+    password += chars[random(chars.length - 1)];
   }
 
   return password;
@@ -520,7 +508,7 @@ function generatePassword(length) {
 /**
  * Retorna um número de DDD válido, com base na lista de DDDs disponíveis de cada Estado brasileiro
  */
-function generateDdd() {
+function gerarDdd() {
   const DDDs = [
     11, 12, 13, 14, 15, 16, 17, 18, 19,
     21, 22, 24, 27, 28,
@@ -533,55 +521,55 @@ function generateDdd() {
     91, 92, 93, 94, 95, 96, 97, 98, 99
   ];
 
-  return DDDs[Math.round(Math.random() * DDDs.length)];
+  return DDDs[random(DDDs.length)];
 }
 
 /**
  * Gera um e-mail randomicamente utilizando apenas as letras e números definidos na lista
  */
-function generateEmail() {
+function gerarEmail() {
   let email = '';
 
   const chars = 'abcdefghijkmnpqrstuvwxyz23456789';
-  const TLDs = ['.com.br', '.info', '.org', '.net', '.com']; // Top-Level Domains :-)
+  const TLDs  = getTopLevelDomains();
 
   for (let i = 0; i < 10; i++) {
-    email += chars.charAt(Math.round(chars.length * Math.random()));
+    email += chars.charAt(random(chars.length - 1));
   }
 
   email += '@';
 
   for (let j = 0; j < 8; j++) {
-    email += chars.charAt(Math.round(chars.length * Math.random()));
+    email += chars.charAt(random(chars.length - 1));
   }
 
-  return email += TLDs[Math.round(Math.random() * TLDs.length)];
+  return email += TLDs[random(TLDs.length - 1)];
 }
 
 /**
  * Gera um domínio randomicamente utilizando apenas as letras e números definidos na lista
  */
-function generateDominio() {
+function gerarDominio() {
   let dominio = '';
 
-  const chars = 'abcdefghijkmnpqrstuvwxyz23456789';
+  const chars     = 'abcdefghijkmnpqrstuvwxyz23456789';
   const protocols = ['http://www.', 'https://www.', 'ftp://'];
-  const TLDs = ['.com.br', '.info', '.org', '.net', '.com']; // Top-Level Domains :-)
+  const TLDs      = getTopLevelDomains();
 
-  dominio += protocols[Math.round(Math.random() * protocols.length)];
+  dominio += protocols[random(protocols.length)];
 
   for (let i = 0; i < 10; i++) {
-    dominio += chars.charAt(Math.round(chars.length * Math.random()));
+    dominio += chars.charAt(random(chars.length));
   }
 
-  return dominio += TLDs[Math.round(Math.random() * TLDs.length)];
+  return dominio += TLDs[random(TLDs.length)];
 }
 
 /**
  * Gera um número aleatório entre 1 e 999
  */
-function generateNumero() {
-  return Math.floor((Math.random() * 999) + 1);
+function gerarNumero() {
+  return random(999) + 1;
 }
 
 /**
@@ -589,25 +577,19 @@ function generateNumero() {
  *
  * @param fullText - Opcional. Se `true`, retorna todos os parágrafos
  */
-function generateText(fullText = false) {
+function gerarTexto(fullText = false) {
   const loremIpsum = [
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit nec sodales sit amet, bibendum non tellus. Vestibulum ' +
-    'ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.',
-
-    'Phasellus eget sapien est, et molestie nibh. Pellentesque semper dui non ipsum volutpat interdum. Nulla et est. ' +
-    'Praesent tincidunt magna sed sem feugiat malesuada. Suspendisse fringilla lobortis erat ac ultricies.',
-
-    'Phasellus id fringilla metus. In quis eros tellus. Pellentesque auctor vestibulum magna eget pellentesque. Proin ' +
-    'ante, iaculis porttitor massa. Morbi iaculis scelerisque dapibus. Vestibulum lacinia ornare quam vel viverra.',
-
-    'Cras pulvinar, arcu vitae convallis ultrices, justo eros imperdiet erat, eget fringilla arcu augue. Duis risus ' +
-    'arcu, sodales sit amet suscipit non, accumsan at ligula. Aliquam iaculis consectetur pellentesque.',
-
-    'Praesent eu nulla ac magna commodo interdum a sit amet nisi. Sed justo orci, faucibus nec volutpat. Lorem ipsum ' +
-    'dolor sit amet, consectetur adipiscing elit. Integer et est id magna posuere feugiat. Maecenas quis ips arcu.'
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit nec sodales sit amet, bibendum non tellus.',
+    'Phasellus eget sapien est, et molestie nibh. Pellentesque semper dui non ipsum volutpat interdum.',
+    'Phasellus id fringilla metus. In quis eros tellus. Pellentesque auctor vestibulum magna eget pellentesque.',
+    'Proin ante, iaculis porttitor massa. Morbi iaculis scelerisque dapibus. Vestibulum lacinia ornare quam vel.',
+    'Cras pulvinar, arcu vitae convallis ultrices, justo eros imperdiet erat, eget fringilla arcu augue.',
+    'Duis risus arcu, sodales sit amet suscipit non, accumsan at ligula. Aliquam iaculis consectetur pellentesque.',
+    'Praesent eu nulla ac magna commodo interdum a sit amet nisi. Sed justo orci, faucibus nec volutpat.',
+    'Consectetur adipiscing elit. Integer et est id magna posuere feugiat. Maecenas quis ips arcu.'
   ];
 
   return (fullText)
     ? loremIpsum.join('\n\n')
-    : loremIpsum[Math.floor(Math.random() * loremIpsum.length)];
+    : loremIpsum[random(loremIpsum.length - 1)];
 }

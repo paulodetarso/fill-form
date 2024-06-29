@@ -1,6 +1,6 @@
 {
   "name": "fill-form",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Fill Form: Bookmarklet para preenchimento de formulários com dados fictícios, utilizando Lorem Ipsum",
   "repository": {
     "type": "git",
@@ -11,13 +11,15 @@
   "scripts": {
     "build": "gulp build",
     "demo": "gulp demo",
-    "bookmarklet": "bookmarklet ./fill-form.js ./dist/fill-form.js",
+    "bookmarklet": "bookmarklet ./dist/fill-form.js ./dist/fill-form.js",
     "bookmarkletDemo": "bookmarklet --demo ./fill-form.js ./dist/fill-form.html"
   },
   "dependencies": {
-    "bookmarklet": "1.0.4",
-    "del": "5.1.0",
-    "gulp": "4.0.2",
-    "gulp-tap": "2.0.0"
-  }
+    "bookmarklet": "^3.0.0",
+    "del": "^7.0.0",
+    "gulp": "^5.0.0",
+    "gulp-tap": "^2.0.0",
+    "gulp-uglify": "^3.0.2"
+  },
+  "type": "module"
 }
